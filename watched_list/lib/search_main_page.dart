@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/HomeScreen.dart';
-import 'package:watched_list/profileMain.dart';
+import 'package:watched_list/home_screen.dart';
+import 'package:watched_list/profil_sayfasi.dart';
 import 'search_result_screen.dart';
 import 'lucky_screen.dart';
 
@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
 }
 */
 class SearchScreen extends StatefulWidget {
-  final String? username;
-  const SearchScreen({Key? key, this.username}) : super(key: key);
+  final String  username;
+  const SearchScreen({Key? key, required this.username}) : super(key: key);
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -90,12 +90,12 @@ class _SearchScreenState extends State<SearchScreen> {
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
-            if (index == 0 && widget.username!=null) {
+            if (index == 0 ) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        HomeScreen(username: widget.username!)),
+                        HomeScreen(username: widget.username)),
               );
             }
             //Mustafa search ekranı

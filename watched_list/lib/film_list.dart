@@ -1,9 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-void main(){
-  runApp(FilmList());
-}
 class FilmList extends StatefulWidget {
   const FilmList({super.key});
 

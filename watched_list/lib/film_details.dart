@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: FilmDetailPage(),
-  ));
-}
-
-class FilmDetailPage extends StatelessWidget {
-  const FilmDetailPage({super.key});
+class FilmDetails extends StatelessWidget {
+  const FilmDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

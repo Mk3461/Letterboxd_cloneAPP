@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/profileMain.dart';
-import 'package:watched_list/searchmainpage.dart';
+import 'package:watched_list/profil_sayfasi.dart';
+import 'package:watched_list/search_main_page.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
             //Mustafa search ekranı
             else if (index==1){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen(username: widget.username,)));
             }
 
           });

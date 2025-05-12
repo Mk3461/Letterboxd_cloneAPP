@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/sayfa10/Sayfa10/data.dart';
-import 'package:watched_list/sayfa10/Sayfa10/moviesPage.dart';
+import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/data.dart';
+import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/moviesPage.dart';
 class Lists extends StatefulWidget {
   @override
   State<Lists> createState() => _LikesState();

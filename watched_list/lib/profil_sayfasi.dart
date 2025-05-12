@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/HomeScreen.dart';
-import 'package:watched_list/sayfa10/Sayfa10/likes.dart';
-import 'package:watched_list/sayfa10/Sayfa10/lists.dart';
-import 'package:watched_list/searchmainpage.dart';
-import 'package:watched_list/watch_list_screen.dart';
-import 'package:watched_list/watched.dart';
+import 'package:watched_list/home_screen.dart';
+import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/likes.dart';
+import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/lists.dart';
+import 'package:watched_list/search_main_page.dart';
+import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/watch_list.dart';
+import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/watched.dart';
 
 class ProfilSayfasi extends StatefulWidget {
   final String username;
@@ -51,7 +51,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
             }
             //Mustafa search ekranı
             else if (index == 1) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen(username: widget.username,)));
             }
             }
           );
