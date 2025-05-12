@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proje/HomeScreen.dart';
-import 'package:proje/registerScreen.dart';
+import 'package:watched_list/HomeScreen.dart';
+import 'package:watched_list/RegisterScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

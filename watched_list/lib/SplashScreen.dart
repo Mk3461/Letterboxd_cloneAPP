@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:proje/loginScreen.dart';
+import 'package:watched_list/LoginScreen.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'lib/assets/images/HamsilerVGevrek.jpg', // Splash ekranı için resim
+              'assets/HamsilerVGevrek.jpg', // Splash ekranı için resim
               width: 300,
               height: 300,
             ),

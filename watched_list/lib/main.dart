@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proje/splashScreen.dart';
+import 'package:watched_list/SplashScreen.dart';
 
 void main() {
   runApp(Proje());
