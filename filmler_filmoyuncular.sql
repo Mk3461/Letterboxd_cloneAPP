@@ -1,0 +1,54 @@
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+--
+-- Host: localhost    Database: filmler
+-- ------------------------------------------------------
+-- Server version	8.0.42
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `filmoyuncular`
+--
+
+DROP TABLE IF EXISTS `filmoyuncular`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `filmoyuncular` (
+  `film_id` int NOT NULL,
+  `oyuncu_id` int NOT NULL,
+  PRIMARY KEY (`film_id`,`oyuncu_id`),
+  KEY `oyuncu_id` (`oyuncu_id`),
+  CONSTRAINT `filmoyuncular_ibfk_1` FOREIGN KEY (`film_id`) REFERENCES `filmler` (`id`),
+  CONSTRAINT `filmoyuncular_ibfk_2` FOREIGN KEY (`oyuncu_id`) REFERENCES `oyuncular` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `filmoyuncular`
+--
+
+LOCK TABLES `filmoyuncular` WRITE;
+/*!40000 ALTER TABLE `filmoyuncular` DISABLE KEYS */;
+INSERT INTO `filmoyuncular` VALUES (1,1),(1,2),(1,3),(1,4),(2,5),(2,6),(2,7),(2,8),(3,9),(3,10),(3,11),(3,12),(4,13),(4,14),(4,15),(4,16),(5,17),(5,18),(5,19),(5,20),(6,21),(6,22),(6,23),(6,24),(11,49),(13,49),(11,50),(13,50),(11,51),(13,51),(11,52),(13,52),(12,53),(14,53),(12,54),(14,54),(12,55),(14,55),(12,56),(14,56),(15,57),(15,58),(15,59),(15,60),(16,61),(16,62),(16,63),(16,64),(17,65),(17,66),(17,67),(17,68),(18,69),(20,69),(18,70),(18,71),(18,72),(19,73),(19,74),(19,75),(19,76),(20,77),(20,78),(20,79),(21,80),(21,81),(21,82),(21,83),(22,84),(22,85),(22,86),(22,87),(23,88),(23,89),(23,90),(23,91),(24,92),(24,93),(24,94),(24,95),(25,96),(25,97),(25,98),(25,99),(26,100),(26,101),(26,102),(26,103),(27,104),(27,105),(27,106),(27,107),(28,108),(28,109),(28,110),(28,111),(29,112),(29,113),(29,114),(29,115),(30,116),(30,117),(30,118),(30,119),(31,120),(31,121),(31,122),(31,123),(32,124),(32,125),(32,126),(32,127),(33,128),(33,129),(33,130),(33,131),(34,132),(34,133),(34,134),(34,135),(35,136),(35,137),(35,138),(35,139),(36,140),(36,141),(36,142),(36,143),(37,144),(37,145),(37,146),(37,147),(38,148),(38,149),(38,150),(38,151),(39,152),(39,153),(39,154),(39,155),(40,156),(40,157),(40,158),(40,159),(41,160),(41,161),(41,162),(41,163),(42,164),(42,165),(42,166),(42,167),(43,168),(43,169),(43,170),(43,171),(44,172),(44,173),(44,174),(44,175),(45,176),(45,177),(45,178),(45,179),(46,180),(46,181),(46,182),(46,183),(47,184),(47,185),(47,186),(47,187),(48,188),(48,189),(48,190),(48,191),(49,192),(49,193),(49,194),(49,195),(51,200),(51,201),(51,202),(51,203),(52,204),(52,205),(52,206),(52,207),(53,208),(53,209),(53,210),(53,211),(54,212),(54,213),(54,214),(54,215),(55,216),(55,217),(55,218),(55,219),(59,232),(59,233),(59,234),(59,235),(60,236),(60,237),(60,238),(60,239),(61,240),(61,241),(61,242),(61,243),(62,244),(62,245),(62,246),(62,247),(63,248),(63,249),(63,250),(63,251),(64,252),(64,253),(64,254),(64,255),(65,256),(65,257),(65,258),(65,259),(66,260),(66,261),(66,262),(66,263),(67,264),(67,265),(67,266),(67,267),(68,268),(68,269),(68,270),(68,271),(69,272),(69,273),(69,274),(69,275),(70,276),(70,277),(70,278),(70,279),(71,280),(71,281),(71,282),(71,283),(72,284),(72,285),(72,286),(72,287),(73,288),(73,289),(73,290),(73,291),(74,292),(74,293),(74,294),(74,295),(75,296),(75,297),(75,298),(75,299);
+/*!40000 ALTER TABLE `filmoyuncular` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-05-12 16:00:43
