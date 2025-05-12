@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (userFound) { 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
+        MaterialPageRoute(builder: (_) => HomeScreen(username: username,)),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:watched_list/profileMain.dart';
+import 'package:watched_list/searchmainpage.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String username;
+  const HomeScreen({Key? key, required this.username}) : super(key: key);
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -49,14 +53,23 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         onTap: (index) {
+          
           setState(() {
             _selectedIndex = index;
+            if(index ==2){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilSayfasi(username: widget.username)));
+            }
+            //Mustafa search ekranı
+            else if (index==1){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+            }
+
           });
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Ara'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil',),
         ],
       ),
       body: SafeArea(

@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watched_list/film_list.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home:WatchList()
-    ),
-  );
-}
 
 class WatchList extends StatefulWidget {
   const WatchList({super.key});
