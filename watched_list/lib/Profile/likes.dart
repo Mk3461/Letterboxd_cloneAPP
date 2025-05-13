@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Profile/data%2010.48.51.dart';
+import 'data.dart';
 
 class Likes extends StatefulWidget {
   @override

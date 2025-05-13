@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watched_list/Profile/movies_page.dart';
-import '../Profile/data%2010.48.51.dart';
+import 'data.dart';
 
 class Lists extends StatefulWidget {
   @override
