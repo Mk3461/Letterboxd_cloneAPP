@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/data.dart';
-import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/moviesPage.dart';
+import 'package:watched_list/Profile/movies_page.dart';
+import '../Profile/data%2010.48.51.dart';
+
 class Lists extends StatefulWidget {
   @override
   State<Lists> createState() => _LikesState();
@@ -38,7 +39,7 @@ class _LikesState extends State<Lists> {
         onPressed: () async {
           final secilenResim = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Moviespage()),
+            MaterialPageRoute(builder: (context) => MoviesPage()),
           );
 
           if (secilenResim != null) {

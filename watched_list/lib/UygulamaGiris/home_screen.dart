@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/profil_sayfasi.dart';
-import 'package:watched_list/search_main_page.dart';
+import '../AramaSayfalari/search_main_page.dart';
+import '../Profile/profil_sayfasi.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;

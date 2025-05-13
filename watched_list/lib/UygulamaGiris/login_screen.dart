@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/home_screen.dart';
-import 'package:watched_list/register_screen.dart';
+import '../UygulamaGiris/home_screen.dart';
+import '../UygulamaGiris/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,10 +13,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Başlangıçta kayıtlı kullanıcılar
   List<Map<String, String>> registeredUsers = [
-    {'username': 'ufuk', 'password': '3929'},
-    {'username': 'murat', 'password': '6161'},
-    {'username': 'mustafa', 'password': '3522'},
-    {'username': 'taha', 'password': '5942'},
+    {'username': 'Ufuk', 'password': '3929'},
+    {'username': 'Murat', 'password': '6161'},
+    {'username': 'Mustafa', 'password': '3522'},
+    {'username': 'Taha', 'password': '5942'},
   ];
 
   void login() {

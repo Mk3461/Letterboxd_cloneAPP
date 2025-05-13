@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/film_list.dart';
+import '../UygulamaGiris/film_list.dart';
 
-class Watched extends StatefulWidget {
-  const Watched({super.key});
+
+class WatchList extends StatefulWidget {
+  const WatchList({super.key});
 
   @override
-  State<Watched> createState() => _WatchListState();
+  State<WatchList> createState() => _WatchListState();
 }
 
-class _WatchListState extends State<Watched> {
+class _WatchListState extends State<WatchList> {
   var filmliste = [
     "assets/forrestGump.png",
     "assets/Interstellar.png",
     "assets/ItsAWonderfulLife.png",
+    "assets/ThePianist.png",
     "assets/GreenMile.png",
     "assets/BabamVeOglum.png"
   ];
@@ -21,7 +23,7 @@ class _WatchListState extends State<Watched> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Watched"),
+          title: Text("WatchList"),
           backgroundColor: const Color.fromARGB(255, 50, 4, 0),
           foregroundColor: const Color.fromARGB(255, 11, 136, 238),
         ),

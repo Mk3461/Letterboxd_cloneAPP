@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/profilSayfalar%C4%B1/ProfilSayfalar%C4%B1/data.dart';
+import '../Profile/data%2010.48.51.dart';
 
-class Moviespage extends StatelessWidget {
-  List<Data> listeler = [
+class MoviesPage extends StatelessWidget {
+  final List<Data> listeler = [
     Data(
       "Drama",
       [

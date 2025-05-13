@@ -1,26 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/home_screen.dart';
-import 'package:watched_list/profil_sayfasi.dart';
+import '../Profile/profil_sayfasi.dart';
+import '../UygulamaGiris/home_screen.dart';
 import 'search_result_screen.dart';
 import 'lucky_screen.dart';
 
-/*
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Film Önerici',
-      theme: ThemeData.dark(),
-      home: SearchScreen(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-*/
 class SearchScreen extends StatefulWidget {
   final String  username;
   const SearchScreen({Key? key, required this.username}) : super(key: key);
@@ -99,12 +82,12 @@ class _SearchScreenState extends State<SearchScreen> {
               );
             }
             //Mustafa search ekranı
-            else if (index == 2 && widget.username != null) {
+            else if (index == 2) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ProfilSayfasi(username: widget.username!)));
+                          ProfilSayfasi(username: widget.username)));
             }
           });
         },
