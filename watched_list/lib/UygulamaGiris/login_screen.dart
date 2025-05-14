@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../UygulamaGiris/home_screen.dart';
 import '../UygulamaGiris/register_screen.dart';
+import '../colorspallette.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -57,9 +58,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: BGC,
       appBar: AppBar(
-        title: Text('Giriş Yap'),
-        backgroundColor: Color(0xFF800000)
+        title: Text('Giriş Yap',
+        style: TextStyle(
+          color: TC,
+        ),
+        ),
+        backgroundColor:ABC,
         ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -69,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: usernameController, 
               decoration: InputDecoration(
-                labelText: 'Kullanıcı Adı'
+                labelText: 'Kullanıcı Adı',
               )
             ),
             SizedBox(height: 12),
@@ -82,9 +88,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: login,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF800000)
+                backgroundColor:BC,
               ),
-              child: Text('Giriş Yap'),
+              child: Text('Giriş Yap',
+              style:TextStyle(
+                color: TC,
+              )),
             ),
             SizedBox(height: 16),
             GestureDetector(
@@ -92,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text(
                 'Hesabınız yok mu? Kayıt olun',
                 style: TextStyle(
-                  color: Colors.blue, 
+                  color: TC, 
                   decoration: TextDecoration.underline
                 ),
               ),

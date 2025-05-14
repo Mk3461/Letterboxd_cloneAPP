@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import '../colorspallette.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> { 
+  String? selectedGender;
   var nameController = TextEditingController();
   var surnameController = TextEditingController();
   var usernameController = TextEditingController(); 
@@ -28,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         surname.isEmpty ||
         username.isEmpty ||
         age.isEmpty ||
-        gender.isEmpty ||
+        //gender.isEmpty ||
         password.isEmpty ||
         confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -72,9 +75,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: BGC,
       appBar: AppBar(
-        title: Text('Kayıt Ol'), 
-        backgroundColor: Color(0xFF800000)
+        title: Text('Kayıt Ol',
+        style:TextStyle(
+          color:TC,
+        ) ,), 
+        backgroundColor: ABC,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -82,63 +89,114 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               TextField(
+                
                 controller: nameController, 
                 decoration: InputDecoration(
-                  labelText: 'Ad'
+                  labelText: 'Ad',
+                  labelStyle:TextStyle(
+                    color: TC,
+                  )
                 )
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               TextField(
                 controller: surnameController, 
                 decoration: InputDecoration(
-                  labelText: 'Soyad'
-                )
+                  labelText: 'Soyad',
+                   labelStyle:TextStyle(
+                    color: TC,
+                   ),
+                ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               TextField(
                 controller: usernameController, 
                 decoration: InputDecoration(
-                  labelText: 'Kullanıcı Adı'
+                  labelText: 'Kullanıcı Adı',
+                   labelStyle:TextStyle(
+                    color: TC,
+                   ),
                 )
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               TextField(
                 controller: ageController, 
                 decoration: InputDecoration(
-                  labelText: 'Yaş'
+                  labelText: 'Yaş', 
+                  labelStyle:TextStyle(
+                    color: TC,
+                  ),
                 ),
-                keyboardType: TextInputType.number
+              //  keyboardType: TextInputType.number
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
+              /*
               TextField(
                 controller: genderController, 
                 decoration: InputDecoration(
-                  labelText: 'Cinsiyet'
+                  labelText: 'Cinsiyet',
+                   labelStyle:TextStyle(
+                    color: TC,
+                   ),
                 )
               ),
-              SizedBox(height: 10),
+              */
+              // Seçilen cinsiyet değeri (null olabilir)
+
+DropdownButtonFormField<String>(
+  value: selectedGender,
+  decoration: InputDecoration(
+    labelText: 'Cinsiyet',
+    labelStyle: TextStyle(
+      color: TC, // Rengin neyse burada kullan
+    ),
+    border: OutlineInputBorder(), // opsiyonel
+  ),
+  items: ['Kadın', 'Erkek','Atak Helikopteri','Opsiyonel'].map((gender) {
+    return DropdownMenuItem<String>(
+      value: gender,
+      child: Text(gender),
+    );
+  }).toList(),
+  onChanged: (newValue) {
+    setState(() {
+      selectedGender = newValue;
+    });
+  },
+),
+
+              SizedBox(height: 20),
               TextField(
                 controller: passwordController, 
                 obscureText: true, 
                 decoration: InputDecoration(
-                  labelText: 'Şifre'
+                  labelText: 'Şifre',
+                   labelStyle:TextStyle(
+                    color: TC,
+                   ),
                 )
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               TextField(
                 controller: confirmPasswordController, 
                 obscureText: true, 
                 decoration: InputDecoration(
-                  labelText: 'Şifre Tekrar'
+                  labelText: 'Şifre Tekrar',
+                   labelStyle:TextStyle(
+                    color: TC,
+                   ),
                 )
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               ElevatedButton(
                 onPressed: register,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF800000)
+                  backgroundColor:BC,
                 ),
-                child: Text('Kayıt Ol'),
+                child: Text('Kayıt Ol',
+                style: TextStyle(
+                  color: TC,
+                ),),
               ),
             ],
           ),

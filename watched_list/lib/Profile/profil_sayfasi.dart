@@ -5,6 +5,7 @@ import '../Profile/watch_list.dart';
 import '../Profile/watched.dart';
 import '../Profile/lists.dart';
 import '../UygulamaGiris/home_screen.dart';
+import '../colorspallette.dart';
 
 class ProfilSayfasi extends StatefulWidget {
   final String username;
@@ -28,8 +29,10 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
   Widget build(BuildContext context) {
     int _selectedIndex = 2;
     return Scaffold(
+      backgroundColor: BGC,
       appBar: AppBar(
-        title:  Text(widget.username),
+        backgroundColor: ABC,
+        title:  Text(widget.username,style: TextStyle(color:TC),),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
@@ -39,7 +42,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        backgroundColor: Color(0xFF800000),
+        backgroundColor:BNBC,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         onTap: (index) {
@@ -78,7 +81,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
             ),
             child: ListTile(
               leading: Icon(item.icon, color: Colors.deepPurple),
-              title: Text(item.title, style: TextStyle(fontSize: 16)),
+              title: Text(item.title, style: TextStyle(fontSize: 16,color: TC)),
               trailing: Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () {
                 switch (item.title) {

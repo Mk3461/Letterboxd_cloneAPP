@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import '../colorspallette.dart';
 
 class FilmList extends StatefulWidget {
   const FilmList({super.key});
@@ -31,7 +32,7 @@ var filmListesi =[
  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      backgroundColor: BGC,
       body: Column(
         children: [
           Expanded(
@@ -46,8 +47,8 @@ var filmListesi =[
                   });
                   },
                 selected: i == seciliIndex,
-                selectedTileColor: Colors.blue,
-                selectedColor: Colors.white,
+                selectedTileColor: Colors.white,
+                selectedColor: TC,
               ),
             ),
           ),
@@ -55,7 +56,8 @@ var filmListesi =[
             onPressed: () {
               Navigator.pop(context,seciliFilm);
             },
-            child: Text("Filmi Onayla"),
+            child: Text("Filmi Onayla",
+            style: TextStyle(color: TC),),
           ),
         ],
       ),

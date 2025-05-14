@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../UygulamaGiris/login_screen.dart';
+import '../colorspallette.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // 15 saniye bekleyip LoginScreen'e yönlendir
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 12), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -24,13 +25,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      //backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor:BGC,
       body: Center(
        child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/HamsilerVGevrek.jpg', // Splash ekranı için resim
+              'assets/HamsiPNG.png', // Splash ekranı için resim
               width: 300,
               height: 300,
             ),
@@ -42,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Text(
                 'HVGFlix',
                 style: TextStyle(
+                  color: TC,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   
@@ -55,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Text(
               'İftiharla',
               style: TextStyle(
+                color: TC,
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
@@ -68,6 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Text(
                 'Sunar...',
                 style: TextStyle(
+                  color: TC,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),

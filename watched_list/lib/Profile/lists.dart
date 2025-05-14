@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:watched_list/Profile/movies_page.dart';
+<<<<<<< HEAD
 import 'data.dart';
+=======
+import '../Profile/data%2010.48.51.dart';
+import '../colorspallette.dart';
+>>>>>>> 2dba995 (FrontendDesignCompleted)
 
 class Lists extends StatefulWidget {
   @override
@@ -17,19 +22,22 @@ class _LikesState extends State<Lists> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      //backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: BGC,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        //backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: ABC,
         title: Row(
           children: [
             Icon(Icons.favorite ,color: Colors.deepPurple),
             const SizedBox(width: 8),
-            const Text(
+            Text(
               "Lists",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
+                color: TC,
               ),
             ),
           ],
@@ -55,7 +63,7 @@ class _LikesState extends State<Lists> {
                   ),
                   title: Text(
                     "Liste Seç veya Oluştur",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold,color: TC),
                   ),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -64,6 +72,7 @@ class _LikesState extends State<Lists> {
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           labelText: "Mevcut Listeler",
+                          labelStyle: TextStyle(color: TC),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -85,6 +94,7 @@ class _LikesState extends State<Lists> {
                         controller: controller,
                         decoration: InputDecoration(
                           labelText: "Yeni Liste Adı",
+                          labelStyle: TextStyle(color: TC),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -99,11 +109,13 @@ class _LikesState extends State<Lists> {
                       onPressed: () => Navigator.pop(context),
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.grey[700],
+                        backgroundColor: BC,
                       ),
-                      child: Text("İptal"),
+                      child: Text("İptal",
+                      style: TextStyle(color: TC),),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () {
+                        onPressed: () {
                         String yeniListeAdi = controller.text.trim();
                         String? kullanilacakListeAdi = yeniListeAdi.isNotEmpty
                             ? yeniListeAdi
@@ -123,7 +135,8 @@ class _LikesState extends State<Lists> {
                             if (listedeSecilenMovieVarMi(mevcutListe, secilenResim)) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text("Bu film zaten bu listede mevcut."),
+                                  content: Text("Bu film zaten bu listede mevcut.",
+                                  style:TextStyle(color:TC),),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.redAccent.shade200,
                                   shape: RoundedRectangleBorder(
@@ -141,9 +154,11 @@ class _LikesState extends State<Lists> {
                         }
                       },
                       icon: Icon(Icons.add),
-                      label: Text("Ekle"),
+                      label: Text("Ekle",
+                      style: TextStyle(color: TC),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: BC,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -156,7 +171,7 @@ class _LikesState extends State<Lists> {
             );
           }
         },
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: BC,
         child: Icon(Icons.add, size: 32),
       ),
       body: ListView.builder(
@@ -173,7 +188,8 @@ class _LikesState extends State<Lists> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: TC,
+                  //color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
               const SizedBox(height: 12),

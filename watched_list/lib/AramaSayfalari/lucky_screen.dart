@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../colorspallette.dart';
 
 class LuckyScreen extends StatelessWidget {
   final String filmAdi;
@@ -8,8 +9,13 @@ class LuckyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: BGC,
       appBar: AppBar(
-        title: Text('I feel lucky'),
+        backgroundColor: ABC,
+        title: Text('I Feel Lucky',
+        style: TextStyle(
+          color: TC,
+        ),),
         leading: BackButton(),
       ),
       body: Center(
@@ -20,7 +26,7 @@ class LuckyScreen extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               filmAdi,
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold,color: TC),
             ),
           ],
         ),

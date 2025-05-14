@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../AramaSayfalari/search_main_page.dart';
 import '../Profile/profil_sayfasi.dart';
+import '../colorspallette.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Text(
             title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: TC),
           ),
         ),
         SizedBox(
@@ -46,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor:BGC,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        backgroundColor: Color(0xFF800000),
+        backgroundColor: BNBC,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         onTap: (index) {
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa',),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Ara'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil',),
         ],
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   'Popular This Week',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: TC),
                 ),
               ),
               SizedBox(

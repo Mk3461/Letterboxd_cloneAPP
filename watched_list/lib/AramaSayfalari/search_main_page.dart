@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import '../Profile/profil_sayfasi.dart';
 import '../UygulamaGiris/home_screen.dart';
 import 'search_result_screen.dart';
 import 'lucky_screen.dart';
+import '../colorspallette.dart';
 
 class SearchScreen extends StatefulWidget {
   final String  username;
@@ -58,7 +60,9 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     var _selectedIndex = 1;
     return Scaffold(
+      backgroundColor: BGC,
       appBar: AppBar(
+        backgroundColor: ABC,
         title: TextField(
           controller: _searchController,
           decoration: InputDecoration(hintText: "Film adı ya da türü yaz..."),
@@ -67,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        backgroundColor: Color(0xFF800000),
+        backgroundColor: BNBC,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         onTap: (index) {
@@ -106,16 +110,35 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Container(
             padding: EdgeInsets.all(30),
             decoration: BoxDecoration(
-              color: Colors.purple,
+              color: BGC,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Text(
-              'I feel lucky',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              'assets/Lucky.jpeg',
+              width: 250,
+              height: 250,
+              fit: BoxFit.cover,
             ),
           ),
-        ),
+          SizedBox(height: 16),
+          Text(
+            'NE FİLM SEÇSEM',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: TC, // Renk paletinden geliyorsa
+            ),
+          ),
+        ],
       ),
+    ),
+  ),
+)
     );
   }
 }

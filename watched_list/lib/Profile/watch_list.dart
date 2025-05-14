@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../UygulamaGiris/film_list.dart';
+import '../colorspallette.dart';
 
 
 class WatchList extends StatefulWidget {
@@ -22,10 +23,11 @@ class _WatchListState extends State<WatchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: BGC,
         appBar: AppBar(
-          title: Text("WatchList"),
-          backgroundColor: const Color.fromARGB(255, 50, 4, 0),
-          foregroundColor: const Color.fromARGB(255, 11, 136, 238),
+          title: Text("WatchList",
+          style: TextStyle(color: TC),),
+          backgroundColor:ABC,
         ),
         body: Column(
           children: [
@@ -49,7 +51,7 @@ class _WatchListState extends State<WatchList> {
                 Navigator.push(context,MaterialPageRoute(builder:(context)=>FilmList()));
               },            
                 style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 255, 255, 255), // Buton rengi
+                backgroundColor: BC, // Buton rengi
                 iconSize:30, 
               ),
               child:Icon(Icons.add_box),

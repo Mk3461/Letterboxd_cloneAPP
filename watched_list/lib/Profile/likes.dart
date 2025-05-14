@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'data.dart';
+=======
+import '../Profile/data%2010.48.51.dart';
+import '../colorspallette.dart';
+>>>>>>> 2dba995 (FrontendDesignCompleted)
 
 class Likes extends StatefulWidget {
   @override
@@ -48,19 +53,22 @@ class _LikesState extends State<Likes> {
     final tumResimler = getTumResimler();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      //backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: BGC,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        //backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: ABC,
         title: Row(
           children: [
             Icon(Icons.favorite, color: Colors.deepPurple),
             const SizedBox(width: 8),
-            const Text(
+            Text(
               "Likes",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
+                color: TC,
               ),
             ),
           ],

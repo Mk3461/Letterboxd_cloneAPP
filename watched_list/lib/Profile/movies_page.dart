@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'data.dart';
+=======
+import '../Profile/data%2010.48.51.dart';
+import '../colorspallette.dart';
+>>>>>>> 2dba995 (FrontendDesignCompleted)
 
 class MoviesPage extends StatelessWidget {
   final List<Data> listeler = [
@@ -42,8 +47,11 @@ class MoviesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final tumResimler = getTumResimler();
     return Scaffold(
+      backgroundColor: BGC,
       appBar: AppBar(
-        title: Text("Movies"),
+        backgroundColor: ABC,
+        title: Text("Movies",
+        style: TextStyle(color: TC),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),

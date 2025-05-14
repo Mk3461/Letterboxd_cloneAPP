@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../colorspallette.dart';
 
 class FilmDetails extends StatelessWidget {
   const FilmDetails({super.key});
@@ -6,6 +7,7 @@ class FilmDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: BGC,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,14 +51,14 @@ class FilmDetails extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "Film Hakkında",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: TC),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 "Bir grup astronot, insanlığın geleceğini kurtarmak için galaksiler arası bir yolculuğa çıkar.",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16,color: TC),
               ),
             ),
 
@@ -65,7 +67,7 @@ class FilmDetails extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "Kategoriler",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: TC),
               ),
             ),
             Padding(
@@ -73,7 +75,7 @@ class FilmDetails extends StatelessWidget {
               child: Wrap(
                 spacing: 8,
                 children: const [
-                  Chip(label: Text("Bilim Kurgu")),
+                  Chip(label: Text("Bilim Kurgu"),),
                   Chip(label: Text("Dram")),
                   Chip(label: Text("Macera")),
                 ],
@@ -88,7 +90,7 @@ class FilmDetails extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
             "Başrol Oyuncuları",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: TC),
                 ),
               ),
             const SizedBox(height: 8),
@@ -112,20 +114,24 @@ class FilmDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
-                children: const [
-                  Icon(Icons.movie_creation_outlined),
-                  SizedBox(width: 8),
-                  Text("Yönetmen: Christopher Nolan"),
+                children: [
+                  const Icon(Icons.movie_creation_outlined),
+                  const SizedBox(width: 8),
+                  Text("Yönetmen: Christopher Nolan",
+                  style: TextStyle(color: TC),),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: Row(
-                children: const [
-                  Icon(Icons.calendar_today),
-                  SizedBox(width: 8),
-                  Text("Yapım Yılı: 2014"),
+                children: [
+                  const Icon(Icons.calendar_today),
+                  const SizedBox(width: 8),
+                  Text("Yapım Yılı: 2014",
+                  style: TextStyle(
+                    color: TC,
+                  ),),
                 ],
               ),
             ),
