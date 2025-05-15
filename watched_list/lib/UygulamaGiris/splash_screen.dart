@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../UygulamaGiris/login_screen.dart';
-import '../colorspallette.dart';
+import '../Models/colorspallette.dart';
 
 
 class SplashScreen extends StatefulWidget {

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:watched_list/Profile/data.dart';
 import 'package:watched_list/Profile/movies_page.dart';
-<<<<<<< HEAD
-import 'data.dart';
-=======
-import '../Profile/data%2010.48.51.dart';
-import '../colorspallette.dart';
->>>>>>> 2dba995 (FrontendDesignCompleted)
+import 'package:watched_list/Models/colorspallette.dart';
 
 class Lists extends StatefulWidget {
   @override

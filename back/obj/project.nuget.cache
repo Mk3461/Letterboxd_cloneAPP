@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iDRe8y4PW+M=",
+  "dgSpecHash": "xwpvK8h5bDk=",
   "success": true,
-  "projectFilePath": "/Users/taha/Desktop/Projecets/C#Projects/back/back.csproj",
+  "projectFilePath": "/Users/taha/Desktop/kopya/untitled folder/Letterboxd_cloneAPP/back/back.csproj",
   "expectedPackageFiles": [
     "/Users/taha/.nuget/packages/bouncycastle.cryptography/2.5.1/bouncycastle.cryptography.2.5.1.nupkg.sha512",
     "/Users/taha/.nuget/packages/google.protobuf/3.30.0/google.protobuf.3.30.0.nupkg.sha512",

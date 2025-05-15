@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import '../colorspallette.dart';
+import 'package:watched_list/Models/colorspallette.dart';
 
 class FilmList extends StatefulWidget {
   const FilmList({super.key});

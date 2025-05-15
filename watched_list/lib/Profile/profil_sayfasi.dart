@@ -5,7 +5,7 @@ import '../Profile/watch_list.dart';
 import '../Profile/watched.dart';
 import '../Profile/lists.dart';
 import '../UygulamaGiris/home_screen.dart';
-import '../colorspallette.dart';
+import '../Models/colorspallette.dart';
 
 class ProfilSayfasi extends StatefulWidget {
   final String username;

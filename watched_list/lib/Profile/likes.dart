@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'data.dart';
-=======
-import '../Profile/data%2010.48.51.dart';
-import '../colorspallette.dart';
->>>>>>> 2dba995 (FrontendDesignCompleted)
+import 'package:watched_list/Profile/data.dart';
+import 'package:watched_list/Models/colorspallette.dart';
 
 class Likes extends StatefulWidget {
   @override
@@ -16,29 +12,22 @@ class _LikesState extends State<Likes> {
     Data(
       "Drama",
       [
-        "images/stelios.jpg",
-        "images/derun.jpg",
-        "images/djahmet.jpg",
-        "images/theWitness.jpg"
+        "assets/GreenMile.png",
+        "assets/BabamVeOglum.png"
       ],
     ),
     Data(
       "Komedi",
       [
-        "images/nakedgun.jpg",
-        "images/junej&jone.jpg",
-        "images/tambanagore.jpg"
+        "assets/GreenMile.png",
+        "assets/BabamVeOglum.png"
       ],
     ),
     Data(
       "BilimKurgu",
       [
-        "images/yildizlararasi.jpg",
-        "images/tron.jpg",
-        "images/tenet.jpg",
-        "images/baslangic.jpg",
-        "images/amator.jpg",
-        "images/IMG_6105.jpeg"
+        "assets/GreenMile.png",
+        "assets/BabamVeOglum.png"
       ],
     ),
   ];

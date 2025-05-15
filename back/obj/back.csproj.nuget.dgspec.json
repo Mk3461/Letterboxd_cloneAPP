@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/taha/Desktop/Projecets/C#Projects/back/back.csproj": {}
+    "/Users/taha/Desktop/kopya/untitled folder/Letterboxd_cloneAPP/back/back.csproj": {}
   },
   "projects": {
-    "/Users/taha/Desktop/Projecets/C#Projects/back/back.csproj": {
+    "/Users/taha/Desktop/kopya/untitled folder/Letterboxd_cloneAPP/back/back.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/taha/Desktop/Projecets/C#Projects/back/back.csproj",
+        "projectUniqueName": "/Users/taha/Desktop/kopya/untitled folder/Letterboxd_cloneAPP/back/back.csproj",
         "projectName": "back",
-        "projectPath": "/Users/taha/Desktop/Projecets/C#Projects/back/back.csproj",
+        "projectPath": "/Users/taha/Desktop/kopya/untitled folder/Letterboxd_cloneAPP/back/back.csproj",
         "packagesPath": "/Users/taha/.nuget/packages/",
-        "outputPath": "/Users/taha/Desktop/Projecets/C#Projects/back/obj/",
+        "outputPath": "/Users/taha/Desktop/kopya/untitled folder/Letterboxd_cloneAPP/back/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/taha/.nuget/NuGet/NuGet.Config"

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../UygulamaGiris/home_screen.dart';
 import '../UygulamaGiris/register_screen.dart';
-import '../colorspallette.dart';
+import '../Models/colorspallette.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

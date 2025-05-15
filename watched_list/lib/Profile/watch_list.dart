@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../UygulamaGiris/film_list.dart';
-import '../colorspallette.dart';
+import '../Models/colorspallette.dart';
 
 
 class WatchList extends StatefulWidget {

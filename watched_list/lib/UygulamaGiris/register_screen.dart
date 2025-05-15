@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../colorspallette.dart';
+import '../Models/colorspallette.dart';
 
 
 class RegisterScreen extends StatefulWidget {

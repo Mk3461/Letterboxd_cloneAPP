@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import '../colorspallette.dart';
+import '../Models/colorspallette.dart';
+import '../Models/film.dart';
 
 class FilmDetails extends StatelessWidget {
-  const FilmDetails({super.key});
+  final Film film;
+
+  const FilmDetails({super.key, required this.film});
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +15,12 @@ class FilmDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // POSTER VE PLAY BUTONU
+            // POSTER
             Stack(
               alignment: Alignment.center,
               children: [
-                Image.asset(
-                  'assets/Interstellar.png',
+                Image.network(
+                  film.filmResim ?? 'https://via.placeholder.com/300x200?text=No+Image',
                   width: double.infinity,
                   height: 300,
                   fit: BoxFit.cover,
@@ -36,10 +39,10 @@ class FilmDetails extends StatelessWidget {
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(Icons.star, color: Colors.amber),
                   SizedBox(width: 5),
-                  Text("IMDB: 8.6", style: TextStyle(fontSize: 18)),
+                  Text("IMDB: ${film.imdbPuani}", style: TextStyle(fontSize: 18)),
                 ],
               ),
             ),
@@ -51,14 +54,14 @@ class FilmDetails extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "Film Hakkında",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: TC),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: TC),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                "Bir grup astronot, insanlığın geleceğini kurtarmak için galaksiler arası bir yolculuğa çıkar.",
-                style: TextStyle(fontSize: 16,color: TC),
+                film.ozet ?? "Açıklama bulunamadı.",
+                style: TextStyle(fontSize: 16, color: TC),
               ),
             ),
 
@@ -67,58 +70,48 @@ class FilmDetails extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "Kategoriler",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: TC),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: TC),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Wrap(
                 spacing: 8,
-                children: const [
-                  Chip(label: Text("Bilim Kurgu"),),
-                  Chip(label: Text("Dram")),
-                  Chip(label: Text("Macera")),
-                ],
+                children: film.turler
+                    .map((tur) => Chip(label: Text(tur)))
+                    .toList(),
               ),
             ),
 
             const SizedBox(height: 16),
 
-            
             // BAŞROL OYUNCULARI
             Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-            "Başrol Oyuncuları",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: TC),
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "Başrol Oyuncuları",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: TC),
               ),
+            ),
             const SizedBox(height: 8),
             Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-            Text("- Matthew McConaughey"),
-            Text("- Anne Hathaway"),
-            Text("- Jessica Chastain"),
-            Text("- Michael Caine"),
-            Text("- Nurullah Özgenç")
-              ],
-            ),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: film.oyuncular.map((oyuncu) => Text("- $oyuncu")).toList(),
+              ),
             ),
 
             const SizedBox(height: 16),
 
-            // YÖNETMEN VE YAPIM YILI
+            // YÖNETMEN VE YIL
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 children: [
                   const Icon(Icons.movie_creation_outlined),
                   const SizedBox(width: 8),
-                  Text("Yönetmen: Christopher Nolan",
-                  style: TextStyle(color: TC),),
+                  Text("Yönetmen: ${film.yonetmen}", style: TextStyle(color: TC)),
                 ],
               ),
             ),
@@ -128,10 +121,7 @@ class FilmDetails extends StatelessWidget {
                 children: [
                   const Icon(Icons.calendar_today),
                   const SizedBox(width: 8),
-                  Text("Yapım Yılı: 2014",
-                  style: TextStyle(
-                    color: TC,
-                  ),),
+                  Text("Yapım Yılı: ${film.yil}", style: TextStyle(color: TC)),
                 ],
               ),
             ),
@@ -143,4 +133,3 @@ class FilmDetails extends StatelessWidget {
     );
   }
 }
-
