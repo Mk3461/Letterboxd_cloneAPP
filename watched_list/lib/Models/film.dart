@@ -30,7 +30,7 @@ class Film {
       imdbPuani: (json['imdbPuani'] ?? 0).toDouble(),
       turler: List<String>.from(json['turler'] ?? []),
       oyuncular: List<String>.from(json['oyuncular'] ?? []),
-      yonetmen: json['yonetmen'] ?? "",
+      yonetmen: json['yonetmenAdi'] ?? "",
       yil: json['vizyonYili'] ?? 0,
     );
   }

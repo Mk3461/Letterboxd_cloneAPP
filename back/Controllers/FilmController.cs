@@ -4,6 +4,8 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Security.Cryptography;
+using System;
 using back.models;
 
 [ApiController]
@@ -43,12 +45,18 @@ public class FilmController : ControllerBase
                 if (!reader.IsDBNull(reader.GetOrdinal("filmresim")))
                 {
                     var bytes = reader.GetFieldValue<byte[]>(reader.GetOrdinal("filmresim"));
-                    var fileName = $"{Guid.NewGuid()}.jpg";
+
+                    using var md5 = MD5.Create();
+                    var hashBytes = md5.ComputeHash(bytes);
+                    var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    var fileName = $"{hash}.jpg";
                     var imagePath = Path.Combine("wwwroot/images", fileName);
 
-                    Directory.CreateDirectory("wwwroot/images");
-
-                    System.IO.File.WriteAllBytes(imagePath, bytes);
+                    if (!System.IO.File.Exists(imagePath))
+                    {
+                        Directory.CreateDirectory("wwwroot/images");
+                        System.IO.File.WriteAllBytes(imagePath, bytes);
+                    }
 
                     imageUrl = $"{_baseUrl}/{fileName}";
                 }
@@ -80,10 +88,10 @@ public class FilmController : ControllerBase
             {
                 oConn.Open();
                 var oyuncuCmd = new MySqlCommand(@"
-                SELECT o.ad_soyad 
-                FROM filmoyuncular fo
-                JOIN oyuncular o ON fo.oyuncu_id = o.id
-                WHERE fo.film_id = @filmId", oConn);
+                    SELECT o.ad_soyad 
+                    FROM filmoyuncular fo
+                    JOIN oyuncular o ON fo.oyuncu_id = o.id
+                    WHERE fo.film_id = @filmId", oConn);
 
                 oyuncuCmd.Parameters.AddWithValue("@filmId", film.Id);
                 using var oReader = oyuncuCmd.ExecuteReader();
@@ -95,10 +103,10 @@ public class FilmController : ControllerBase
             {
                 tConn.Open();
                 var turCmd = new MySqlCommand(@"
-                SELECT t.tur_adi
-                FROM filmturleri ft
-                JOIN turler t ON ft.tur_id = t.id
-                WHERE ft.film_id = @filmId", tConn);
+                    SELECT t.tur_adi
+                    FROM filmturleri ft
+                    JOIN turler t ON ft.tur_id = t.id
+                    WHERE ft.film_id = @filmId", tConn);
 
                 turCmd.Parameters.AddWithValue("@filmId", film.Id);
                 using var tReader = turCmd.ExecuteReader();
@@ -137,12 +145,18 @@ public class FilmController : ControllerBase
                 if (!reader.IsDBNull(reader.GetOrdinal("filmresim")))
                 {
                     var bytes = reader.GetFieldValue<byte[]>(reader.GetOrdinal("filmresim"));
-                    var fileName = $"{Guid.NewGuid()}.jpg";
+
+                    using var md5 = MD5.Create();
+                    var hashBytes = md5.ComputeHash(bytes);
+                    var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    var fileName = $"{hash}.jpg";
                     var imagePath = Path.Combine("wwwroot/images", fileName);
 
-                    Directory.CreateDirectory("wwwroot/images");
-
-                    System.IO.File.WriteAllBytes(imagePath, bytes);
+                    if (!System.IO.File.Exists(imagePath))
+                    {
+                        Directory.CreateDirectory("wwwroot/images");
+                        System.IO.File.WriteAllBytes(imagePath, bytes);
+                    }
 
                     imageUrl = $"{_baseUrl}/{fileName}";
                 }
@@ -170,10 +184,10 @@ public class FilmController : ControllerBase
         {
             oConn.Open();
             var oyuncuCmd = new MySqlCommand(@"
-            SELECT o.ad_soyad 
-            FROM filmoyuncular fo
-            JOIN oyuncular o ON fo.oyuncu_id = o.id
-            WHERE fo.film_id = @filmId", oConn);
+                SELECT o.ad_soyad 
+                FROM filmoyuncular fo
+                JOIN oyuncular o ON fo.oyuncu_id = o.id
+                WHERE fo.film_id = @filmId", oConn);
 
             oyuncuCmd.Parameters.AddWithValue("@filmId", film.Id);
             using var oReader = oyuncuCmd.ExecuteReader();
@@ -186,10 +200,10 @@ public class FilmController : ControllerBase
         {
             tConn.Open();
             var turCmd = new MySqlCommand(@"
-            SELECT t.tur_adi
-            FROM filmturleri ft
-            JOIN turler t ON ft.tur_id = t.id
-            WHERE ft.film_id = @filmId", tConn);
+                SELECT t.tur_adi
+                FROM filmturleri ft
+                JOIN turler t ON ft.tur_id = t.id
+                WHERE ft.film_id = @filmId", tConn);
 
             turCmd.Parameters.AddWithValue("@filmId", film.Id);
             using var tReader = turCmd.ExecuteReader();

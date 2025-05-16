@@ -13,9 +13,11 @@ class _LikesState extends State<Likes> {
       "Drama",
       [
         "assets/GreenMile.png",
-        "assets/BabamVeOglum.png"
+        "assets/BabamVeOglum.png",
+
       ],
     ),
+    /*
     Data(
       "Komedi",
       [
@@ -30,6 +32,7 @@ class _LikesState extends State<Likes> {
         "assets/BabamVeOglum.png"
       ],
     ),
+    */
   ];
 
   // Tüm resimleri tek listeye düzleştiriyoruz
