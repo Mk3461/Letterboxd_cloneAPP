@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:watched_list/Profile/settings.dart';
 import '../AramaSayfalari/search_main_page.dart';
 import '../Profile/likes.dart';
 import '../Profile/watch_list.dart';
@@ -35,10 +36,13 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
         title:  Text(widget.username,style: TextStyle(color:TC),),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage("images/IMG_6105.jpeg"),
-          ),
-        ),
+          child: Image.asset(
+              'assets/eralpinho.jpeg',
+              fit: BoxFit.cover,
+              width: 40,
+              height: 40,
+                ),
+              ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -111,6 +115,12 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => Watched(),
+                      ));
+                      case "Settings":
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Settings(),
                       ));
                 }
               },
