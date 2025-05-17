@@ -1,0 +1,3 @@
+library global;
+
+int? currentUserId;

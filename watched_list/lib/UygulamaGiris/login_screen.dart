@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:watched_list/Models/global.dart' as global;
+
 import '../UygulamaGiris/home_screen.dart';
 import '../UygulamaGiris/register_screen.dart';
 import '../Models/colorspallette.dart';
@@ -12,32 +16,64 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // Başlangıçta kayıtlı kullanıcılar
-  List<Map<String, String>> registeredUsers = [
-    {'username': 'Ufuk', 'password': '3929'},
-    {'username': 'Murat', 'password': '6161'},
-    {'username': 'Mustafa', 'password': '3522'},
-    {'username': 'Taha', 'password': '5942'},
-  ];
+  List<Map<String, String>> registeredUsers = [];
 
-  void login() {
-    var username = usernameController.text.trim();
-    var password = passwordController.text;
+  @override
+  void initState() {
+    super.initState();
+  }
 
-    var userFound = registeredUsers.any((user) =>
-        user['username'] == username && user['password'] == password);
 
-    if (userFound) { 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen(username: username,)),
+  void login() async {
+  var username = usernameController.text.trim();
+  var password = passwordController.text;
+
+  if (username.isEmpty || password.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Lütfen kullanıcı adı ve şifre girin')),
+    );
+    return;
+  }
+
+  try {
+    var response = await http.post(
+      Uri.parse('http://10.0.2.2:5001/api/kullanici/giris'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'kullaniciAdi': username,
+        'sifre': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['success'] == true) {
+        global.currentUserId = data['userId'];
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen(username: username)),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Giriş başarısız')),
+        );
+      }
+    } else if (response.statusCode == 401) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Kullanıcı adı veya şifre yanlış')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Kullanıcı adınızı ya da şifrenizi yanlış girdiniz')),
+        SnackBar(content: Text('Sunucu hatası: ${response.statusCode}')),
       );
     }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Bağlantı hatası: $e')),
+    );
   }
+}
+
 
   void goToRegister() async {
     var result = await Navigator.push(
@@ -60,24 +96,22 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: BGC,
       appBar: AppBar(
-        title: Text('Giriş Yap',
-        style: TextStyle(
-          color: TC,
+        title: Text(
+          'Giriş Yap',
+          style: TextStyle(color: TC),
         ),
-        ),
-        backgroundColor:ABC,
-        ),
+        backgroundColor: ABC,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: usernameController, 
-              decoration: InputDecoration(
-                labelText: 'Kullanıcı Adı',
-              )
-            ),
+                controller: usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Kullanıcı Adı',
+                )),
             SizedBox(height: 12),
             TextField(
               controller: passwordController,
@@ -88,12 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: login,
               style: ElevatedButton.styleFrom(
-                backgroundColor:BC,
+                backgroundColor: BC,
               ),
-              child: Text('Giriş Yap',
-              style:TextStyle(
-                color: TC,
-              )),
+              child: Text('Giriş Yap', style: TextStyle(color: TC)),
             ),
             SizedBox(height: 16),
             GestureDetector(
@@ -101,9 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text(
                 'Hesabınız yok mu? Kayıt olun',
                 style: TextStyle(
-                  color: TC, 
-                  decoration: TextDecoration.underline
-                ),
+                    color: TC, decoration: TextDecoration.underline),
               ),
             ),
           ],
