@@ -1617,11 +1617,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/taha/Documents/GitHub/Flutter/Letterboxd_cloneAPP/back/back.csproj",
+      "projectUniqueName": "/Users/taha/Desktop/kopya/SonKopya/Letterboxd_cloneAPP/back/back.csproj",
       "projectName": "back",
-      "projectPath": "/Users/taha/Documents/GitHub/Flutter/Letterboxd_cloneAPP/back/back.csproj",
+      "projectPath": "/Users/taha/Desktop/kopya/SonKopya/Letterboxd_cloneAPP/back/back.csproj",
       "packagesPath": "/Users/taha/.nuget/packages/",
-      "outputPath": "/Users/taha/Documents/GitHub/Flutter/Letterboxd_cloneAPP/back/obj/",
+      "outputPath": "/Users/taha/Desktop/kopya/SonKopya/Letterboxd_cloneAPP/back/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/taha/.nuget/NuGet/NuGet.Config"

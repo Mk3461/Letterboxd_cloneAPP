@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Models/colorspallette.dart';
@@ -17,49 +19,74 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
 
-  void register() {
-    var name = nameController.text.trim();
-    var surname = surnameController.text.trim();
-    var username = usernameController.text.trim();
-    var age = ageController.text.trim();
-    var gender = genderController.text.trim();
-    var password = passwordController.text;
-    var confirmPassword = confirmPasswordController.text;
 
-    // Alanlar boş mu kontrolü
-    if (name.isEmpty ||
-        surname.isEmpty ||
-        username.isEmpty ||
-        age.isEmpty ||
-        //gender.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tüm alanları doldurun!')),
-      );
-      return;
-    }
+void register() async {
+  var name = nameController.text.trim();
+  var surname = surnameController.text.trim();
+  var username = usernameController.text.trim();
+  var age = ageController.text.trim();
+  var password = passwordController.text;
+  var confirmPassword = confirmPasswordController.text;
+  var gender = selectedGender ?? ""; // dropdown'dan geliyor
 
-    // Şifre eşleşiyor mu kontrolü
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Şifre ve şifre tekrarı aynı olmalı!')),
-      );
-      return;
-    }
+  if (name.isEmpty ||
+      surname.isEmpty ||
+      username.isEmpty ||
+      age.isEmpty ||
+      gender.isEmpty ||
+      password.isEmpty ||
+      confirmPassword.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Tüm alanları doldurun!')),
+    );
+    return;
+  }
 
-    // Kayıt başarılı
+  if (password != confirmPassword) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Şifre ve şifre tekrarı aynı olmalı!')),
+    );
+    return;
+  }
+
+  var url = Uri.parse("http://10.0.2.2:5001/api/Kullanici/ekle"); 
+  var response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      "kullaniciAdi": username,
+      "isim": name,
+      "soyisim": surname,
+      "yas": int.parse(age),
+      "cinsiyet": gender,
+      "sifre": password
+    }),
+  );
+
+  // Debug amaçlı konsola yazdır
+  print('Status code: ${response.statusCode}');
+  print('Response body: ${response.body}');
+
+  if (response.statusCode == 200 || response.statusCode == 201) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Başarıyla kayıt oldunuz!')),
     );
-
-    // LoginScreen'e kullanıcı bilgilerini geri döndür
     Navigator.pop(context, {
       'username': username,
       'password': password,
     });
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Kayıt başarısız: [${response.statusCode}] ${response.body}',
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
   }
-
+}
   @override
   void dispose() {
     nameController.dispose();

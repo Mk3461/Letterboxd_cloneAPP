@@ -1,5 +1,7 @@
+import 'dart:convert';
+import 'package:watched_list/Models/global.dart' as global;
 import 'package:flutter/material.dart';
-import 'package:watched_list/Profile/data.dart';
+import 'package:http/http.dart' as http;
 import 'package:watched_list/Models/colorspallette.dart';
 
 class Likes extends StatefulWidget {
@@ -8,48 +10,53 @@ class Likes extends StatefulWidget {
 }
 
 class _LikesState extends State<Likes> {
-  List<Data> listeler = [
-    Data(
-      "Drama",
-      [
-        "assets/GreenMile.png",
-        "assets/BabamVeOglum.png",
+  List<dynamic> likedMovies = [];
+  bool isLoading = true;
+  String? error;
 
-      ],
-    ),
-    /*
-    Data(
-      "Komedi",
-      [
-        "assets/GreenMile.png",
-        "assets/BabamVeOglum.png"
-      ],
-    ),
-    Data(
-      "BilimKurgu",
-      [
-        "assets/GreenMile.png",
-        "assets/BabamVeOglum.png"
-      ],
-    ),
-    */
-  ];
+  final String apiUrl =
+      "http://10.0.2.2:5001/api/LikedList/user/${global.currentUserId}";
 
-  // Tüm resimleri tek listeye düzleştiriyoruz
-  List<String> getTumResimler() {
-    return listeler.expand((kategori) => kategori.imageWay).toList();
+  @override
+  void initState() {
+    super.initState();
+    fetchLikedMovies();
+  }
+
+  Future<void> fetchLikedMovies() async {
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+
+        setState(() {
+          likedMovies = data;
+          isLoading = false;
+          error = null;
+        });
+      } else {
+        setState(() {
+          error = "Sunucudan veri alınamadı: ${response.statusCode}";
+          print("Kullanıcı ID: ${global.currentUserId}");
+          print("İstek atılan URL: $apiUrl");
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        error = "Bir hata oluştu: $e";
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final tumResimler = getTumResimler();
-
     return Scaffold(
-      //backgroundColor: Theme.of(context).colorScheme.background,
       backgroundColor: BGC,
       appBar: AppBar(
         elevation: 0,
-        //backgroundColor: Theme.of(context).colorScheme.background,
         backgroundColor: ABC,
         title: Row(
           children: [
@@ -68,36 +75,60 @@ class _LikesState extends State<Likes> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: GridView.builder(
-          itemCount: tumResimler.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // Her satırda 3 görsel
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 0.7, // Görselin oranı
-          ),
-          itemBuilder: (context, index) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(1, 3),
-                    )
-                  ],
-                ),
-                child: Image.asset(
-                  tumResimler[index],
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-        ),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : error != null
+                ? Center(child: Text(error!))
+                : likedMovies.isEmpty
+                    ? Center(child: Text("Beğenilen film bulunamadı"))
+                    : GridView.builder(
+                        itemCount: likedMovies.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 0.7,
+                        ),
+                        itemBuilder: (context, index) {
+                          final film = likedMovies[index];
+                          final imageUrl = film['filmResim'] ?? '';
+
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 6,
+                                    offset: Offset(1, 3),
+                                  )
+                                ],
+                              ),
+                              child: imageUrl.isNotEmpty
+                                  ? Image.network(
+                                      imageUrl,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error,
+                                              stackTrace) =>
+                                          Center(
+                                              child: Icon(Icons.broken_image)),
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      },
+                                    )
+                                  : Center(
+                                      child: Icon(Icons.image_not_supported)),
+                            ),
+                          );
+                        },
+                      ),
       ),
     );
   }
