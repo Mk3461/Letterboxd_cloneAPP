@@ -19,13 +19,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/forrestGump.png
-    - assets/Interstellar.png
-    - assets/ItsAWonderfulLife.png
-    - assets/ThePianist.png
-    - assets/GreenMile.png
-    - assets/BabamVeOglum.png
-    - assets/HamsilerVGevrek.jpg
+    - assets/eralpinho.jpeg
     - assets/HamsiPNG.png
     - assets/Lucky.jpeg
-    - assets/eralpinho.jpeg

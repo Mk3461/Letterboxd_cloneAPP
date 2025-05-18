@@ -213,4 +213,52 @@ public class FilmController : ControllerBase
 
         return Ok(film);
     }
+    [HttpGet("getWatchlist")]
+    public IActionResult GetWatchlist(int kullaniciId)
+    {
+        var films = new List<object>();
+
+        using var conn = new MySqlConnection(_connectionString);
+        conn.Open();
+
+        var query = @"
+        SELECT f.id, f.film_adi, f.filmresim, f.ozet, f.imdb_puani, f.vizyon_yili,
+               y.ad_soyad,
+               GROUP_CONCAT(DISTINCT t.tur_adi) AS turler,
+               GROUP_CONCAT(DISTINCT o.ad_soyad) AS oyuncular
+        FROM watchedlist wl
+        JOIN filmler f ON wl.film_id = f.id
+        LEFT JOIN filmturleri ft ON f.id = ft.film_id
+        LEFT JOIN turler t ON ft.tur_id = t.id
+        LEFT JOIN filmoyuncular fo ON f.id = fo.film_id
+        LEFT JOIN oyuncular o ON fo.oyuncu_id = o.id
+        LEFT JOIN yonetmenler y ON f.yonetmen_id = y.id
+        WHERE wl.kullanici_id = @kid
+        GROUP BY f.id, f.film_adi, f.filmResim, f.ozet, f.imdb_puani, f.vizyon_yili, y.ad_soyad";
+
+        var cmd = new MySqlCommand(query, conn);
+        cmd.Parameters.AddWithValue("@kid", kullaniciId);
+
+        using var reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            var film = new
+            {
+                id = reader.GetInt32("id"),
+                filmAdi = reader["film_adi"]?.ToString(),
+                filmResim = reader["filmResim"]?.ToString(),
+                ozet = reader["ozet"]?.ToString(),
+                imdbPuani = reader["imdb_puani"] is DBNull ? 0.0 : Convert.ToDouble(reader["imdb_puani"]),
+                vizyonYili = reader["vizyon_yili"] is DBNull ? 0 : Convert.ToInt32(reader["vizyon_yili"]),
+                yonetmenAdi = reader["yonetmen_id"]?.ToString(),
+                turler = reader["turler"]?.ToString()?.Split(',') ?? Array.Empty<string>(),
+                oyuncular = reader["oyuncular"]?.ToString()?.Split(',') ?? Array.Empty<string>()
+            };
+
+            films.Add(film);
+        }
+
+        return Ok(films);
+    }
+
 }

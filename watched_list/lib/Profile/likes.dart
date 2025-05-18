@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:watched_list/Models/global.dart' as global;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:watched_list/Models/global.dart' as global;
 import 'package:watched_list/Models/colorspallette.dart';
-import 'package:watched_list/UygulamaGiris/film_list.dart';
+import 'package:watched_list/Profile/movies_page.dart';
 
 class Likes extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _LikesState extends State<Likes> {
   String? error;
 
   final String apiUrl =
-      "http://10.0.2.2:5001/api/LikedList/user/${global.currentUserId}";
+      "http://10.0.2.2:5001/api/LikedList/listele?kullaniciId=${global.currentUserId}";
 
   @override
   void initState() {
@@ -39,8 +39,6 @@ class _LikesState extends State<Likes> {
       } else {
         setState(() {
           error = "Sunucudan veri alınamadı: ${response.statusCode}";
-          print("Kullanıcı ID: ${global.currentUserId}");
-          print("İstek atılan URL: $apiUrl");
           isLoading = false;
         });
       }
@@ -51,7 +49,41 @@ class _LikesState extends State<Likes> {
       });
     }
   }
-/*
+
+  Future<void> likeFilm(int filmId) async {
+    final url = Uri.parse("http://10.0.2.2:5001/api/LikedList/ekle");
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "kullaniciId": global.currentUserId,
+          "filmId": filmId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Film beğenildi.")),
+        );
+        fetchLikedMovies(); // Listeyi güncelle
+      } else if (response.statusCode == 409) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Bu film zaten beğenilmiş.")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Hata: ${response.statusCode}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Bağlantı hatası: $e")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,133 +126,81 @@ class _LikesState extends State<Likes> {
                         itemBuilder: (context, index) {
                           final film = likedMovies[index];
                           final imageUrl = film['filmResim'] ?? '';
+                          final filmId = film['Id'];
 
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 6,
-                                    offset: Offset(1, 3),
-                                  )
-                                ],
+                          return Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 6,
+                                        offset: Offset(1, 3),
+                                      )
+                                    ],
+                                  ),
+                                  child: imageUrl.isNotEmpty
+                                      ? Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error,
+                                                  stackTrace) =>
+                                              Center(
+                                                  child:
+                                                      Icon(Icons.broken_image)),
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          },
+                                        )
+                                      : Center(
+                                          child:
+                                              Icon(Icons.image_not_supported)),
+                                ),
                               ),
-                              child: imageUrl.isNotEmpty
-                                  ? Image.network(
-                                      imageUrl,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error,
-                                              stackTrace) =>
-                                          Center(
-                                              child: Icon(Icons.broken_image)),
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      },
-                                    )
-                                  : Center(
-                                      child: Icon(Icons.image_not_supported)),
-                            ),
+                              Positioned(
+                                bottom: 8,
+                                right: 8,
+                                child: GestureDetector(
+                                  onTap: () => likeFilm(filmId),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.white70,
+                                    child: Icon(Icons.favorite,
+                                        color: Colors.deepPurple),
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
                         },
                       ),
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () async {
+          final selectedFilm = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MoviesPage()),
+          );
+
+          if (selectedFilm != null) {
+            likeFilm(selectedFilm.id);
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: BC,
+          shape: CircleBorder(),
+          padding: EdgeInsets.all(16),
+        ),
+        child: Icon(Icons.add_box, size: 30),
+      ),
     );
   }
-}
-*/
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: BGC,
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: ABC,
-      title: Row(
-        children: [
-          Icon(Icons.favorite, color: Colors.deepPurple),
-          const SizedBox(width: 8),
-          Text(
-            "Likes",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: TC,
-            ),
-          ),
-        ],
-      ),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : error != null
-              ? Center(child: Text(error!))
-              : likedMovies.isEmpty
-                  ? Center(child: Text("Beğenilen film bulunamadı"))
-                  : GridView.builder(
-                      itemCount: likedMovies.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: 0.7,
-                      ),
-                      itemBuilder: (context, index) {
-                        final film = likedMovies[index];
-                        final imageUrl = film['filmResim'] ?? '';
-
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 6,
-                                  offset: Offset(1, 3),
-                                )
-                              ],
-                            ),
-                            child: imageUrl.isNotEmpty
-                                ? Image.network(
-                                    imageUrl,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) =>
-                                        Center(child: Icon(Icons.broken_image)),
-                                    loadingBuilder: (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(child: CircularProgressIndicator());
-                                    },
-                                  )
-                                : Center(child: Icon(Icons.image_not_supported)),
-                          ),
-                        );
-                      },
-                    ),
-    ),
-    floatingActionButton: ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => FilmList()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: BC, // Buton rengi
-        shape: CircleBorder(),
-        padding: EdgeInsets.all(16),
-      ),
-      child: Icon(Icons.add_box, size: 30),
-    ),
-  );
-}
 }
