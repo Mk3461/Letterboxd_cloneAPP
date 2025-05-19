@@ -63,7 +63,7 @@ void register() async {
     }),
   );
 
-  // Debug amaçlı konsola yazdır
+  // Debug amaçlı 
   print('Status code: ${response.statusCode}');
   print('Response body: ${response.body}');
 

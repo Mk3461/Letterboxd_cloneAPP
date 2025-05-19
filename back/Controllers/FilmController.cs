@@ -81,7 +81,6 @@ public class FilmController : ControllerBase
         if (filmler.Count == 0)
             return NotFound("Filmler bulunamadı");
 
-        // Oyuncular ve Türler
         foreach (var film in filmler)
         {
             using (var oConn = new MySqlConnection(_connectionString))
@@ -117,8 +116,6 @@ public class FilmController : ControllerBase
 
         return Ok(filmler);
     }
-
-    // Rastgele bir film getiren endpoint
     [HttpGet]
     [Route("random")]
     public IActionResult GetRandomFilm()

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:watched_list/Profile/profil_sayfasi.dart';
+import '../Profile/profil_sayfasi.dart';
 import '../Models/colorspallette.dart';
 
 class Settings extends StatefulWidget {

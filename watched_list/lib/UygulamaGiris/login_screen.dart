@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:watched_list/Models/global.dart' as global;
 
+import '../Models/global.dart' as global;
 import '../UygulamaGiris/home_screen.dart';
 import '../UygulamaGiris/register_screen.dart';
 import '../Models/colorspallette.dart';

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:watched_list/Models/colorspallette.dart';
-import 'package:watched_list/Profile/profil_sayfasi.dart';
-import 'package:watched_list/UygulamaGiris/film_details.dart';
 import 'dart:convert';
-
+import '../Models/colorspallette.dart';
+import '../Profile/profil_sayfasi.dart';
+import '../UygulamaGiris/film_details.dart';
 import '../AramaSayfalari/search_main_page.dart';
 import '../Models/film.dart';
 

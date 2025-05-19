@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:watched_list/Models/film.dart';
 import 'package:watched_list/Models/global.dart' as global;
 import 'package:watched_list/Models/colorspallette.dart';
 import 'package:watched_list/Profile/movies_page.dart';
+import 'package:watched_list/UygulamaGiris/film_details.dart';
 
 class Likes extends StatefulWidget {
   @override
@@ -128,57 +130,67 @@ class _LikesState extends State<Likes> {
                           final imageUrl = film['filmResim'] ?? '';
                           final filmId = film['Id'];
 
-                          return Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade300,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 6,
-                                        offset: Offset(1, 3),
-                                      )
-                                    ],
-                                  ),
-                                  child: imageUrl.isNotEmpty
-                                      ? Image.network(
-                                          imageUrl,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, error,
-                                                  stackTrace) =>
-                                              Center(
-                                                  child:
-                                                      Icon(Icons.broken_image)),
-                                          loadingBuilder: (context, child,
-                                              loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
-                                            return Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          },
+                          return GestureDetector(
+                            onTap: () {
+                              final selectedFilm = Film.fromJson(film);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FilmDetails(film: selectedFilm)));
+                            },
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 6,
+                                          offset: Offset(1, 3),
                                         )
-                                      : Center(
-                                          child:
-                                              Icon(Icons.image_not_supported)),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                  onTap: () => likeFilm(filmId),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.white70,
-                                    child: Icon(Icons.favorite,
-                                        color: Colors.deepPurple),
+                                      ],
+                                    ),
+                                    child: imageUrl.isNotEmpty
+                                        ? Image.network(
+                                            imageUrl,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error,
+                                                    stackTrace) =>
+                                                Center(
+                                                    child: Icon(
+                                                        Icons.broken_image)),
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            },
+                                          )
+                                        : Center(
+                                            child: Icon(
+                                                Icons.image_not_supported)),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Positioned(
+                                  bottom: 8,
+                                  right: 8,
+                                  child: GestureDetector(
+                                    onTap: () => likeFilm(filmId),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white70,
+                                      child: Icon(Icons.favorite,
+                                          color: Colors.deepPurple),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),
@@ -199,7 +211,12 @@ class _LikesState extends State<Likes> {
           shape: CircleBorder(),
           padding: EdgeInsets.all(16),
         ),
-        child: Icon(Icons.add_box, size: 30),
+        child: Row(
+          children: [
+            Icon(Icons.add_box, size: 30),
+          ],
+        ),
+
       ),
     );
   }

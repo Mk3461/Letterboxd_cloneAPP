@@ -73,84 +73,105 @@ public class ListeController : ControllerBase
     }
 
     [HttpGet("liste/{kullaniciId}/{listeAdi}")]
-    public IActionResult ListeyiGetir(int kullaniciId, string listeAdi)
+public IActionResult ListeyiGetir(int kullaniciId, string listeAdi)
+{
+    try
     {
-        try
+        var filmler = new List<object>();
+        var baseUrl = "http://10.0.2.2:5001/images";
+
+        using var conn = new MySqlConnection(connectionString);
+        conn.Open();
+
+        int listeId = -1;
+        var listeIdCmd = new MySqlCommand("SELECT id FROM listeler WHERE kullanici_id = @kullanici_id AND ad = @ad", conn);
+        listeIdCmd.Parameters.AddWithValue("@kullanici_id", kullaniciId);
+        listeIdCmd.Parameters.AddWithValue("@ad", listeAdi);
+
+        using (var reader = listeIdCmd.ExecuteReader())
         {
-            var filmler = new List<object>();
-            var baseUrl = "http://10.0.2.2:5001/images";  // Burayı kendi sunucuna göre ayarla
+            if (reader.Read())
+                listeId = reader.GetInt32("id");
+            else
+                return NotFound("Böyle bir liste bulunamadı.");
+        }
 
-            using var conn = new MySqlConnection(connectionString);
-            conn.Open();
+        var filmsCmd = new MySqlCommand(@"
+            SELECT 
+              f.id, 
+              f.film_adi AS filmAdi, 
+              f.filmresim, 
+              f.ozet, 
+              f.imdb_puani AS imdbPuani, 
+              f.vizyon_yili AS vizyonYili,
+              y.ad_soyad AS yonetmenAdi,
+              GROUP_CONCAT(DISTINCT t.tur_adi) AS turler,
+              GROUP_CONCAT(DISTINCT o.ad_soyad) AS oyuncular
+            FROM listefilmleri lf
+            JOIN filmler f ON lf.film_id = f.id
+            LEFT JOIN filmturleri ft ON f.id = ft.film_id
+            LEFT JOIN turler t ON ft.tur_id = t.id
+            LEFT JOIN filmoyuncular fo ON f.id = fo.film_id
+            LEFT JOIN oyuncular o ON fo.oyuncu_id = o.id
+            LEFT JOIN yonetmenler y ON f.yonetmen_id = y.id
+            JOIN listeler l ON lf.liste_id = l.id
+            WHERE l.kullanici_id = @kullaniciId AND l.ad = @listeAdi
+            GROUP BY f.id", conn);
 
-            // Önce listemizin ID'sini alalım
-            int listeId = -1;
-            var listeIdCmd = new MySqlCommand("SELECT id FROM listeler WHERE kullanici_id = @kullanici_id AND ad = @ad", conn);
-            listeIdCmd.Parameters.AddWithValue("@kullanici_id", kullaniciId);
-            listeIdCmd.Parameters.AddWithValue("@ad", listeAdi);
+        filmsCmd.Parameters.AddWithValue("@kullaniciId", kullaniciId);
+        filmsCmd.Parameters.AddWithValue("@listeAdi", listeAdi);
 
-            using (var reader = listeIdCmd.ExecuteReader())
+        using var filmReader = filmsCmd.ExecuteReader();
+        while (filmReader.Read())
+        {
+            string imageUrl = null;
+
+            if (!filmReader.IsDBNull(filmReader.GetOrdinal("filmresim")))
             {
-                if (reader.Read())
-                    listeId = reader.GetInt32("id");
-                else
-                    return NotFound("Böyle bir liste bulunamadı.");
-            }
+                var bytes = filmReader.GetFieldValue<byte[]>(filmReader.GetOrdinal("filmresim"));
 
-            // Listemizdeki filmleri çekelim
-            var filmsCmd = new MySqlCommand(@"
-                SELECT f.id, f.film_adi, f.ozet, f.vizyon_yili, f.imdb_puani, f.filmresim
-                FROM listefilmleri lf
-                JOIN filmler f ON lf.film_id = f.id
-                WHERE lf.liste_id = @liste_id", conn);
-            filmsCmd.Parameters.AddWithValue("@liste_id", listeId);
+                using var md5 = System.Security.Cryptography.MD5.Create();
+                var hashBytes = md5.ComputeHash(bytes);
+                var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                var fileName = $"{hash}.jpg";
 
-            using var filmReader = filmsCmd.ExecuteReader();
-            while (filmReader.Read())
-            {
-                string imageUrl = null;
-
-                if (!filmReader.IsDBNull(filmReader.GetOrdinal("filmresim")))
+                var imagePath = Path.Combine("wwwroot/images", fileName);
+                if (!System.IO.File.Exists(imagePath))
                 {
-                    var bytes = filmReader.GetFieldValue<byte[]>(filmReader.GetOrdinal("filmresim"));
-
-                    using var md5 = System.Security.Cryptography.MD5.Create();
-                    var hashBytes = md5.ComputeHash(bytes);
-                    var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-                    var fileName = $"{hash}.jpg";
-
-                    var imagePath = Path.Combine("wwwroot/images", fileName);
-                    if (!System.IO.File.Exists(imagePath))
-                    {
-                        System.IO.Directory.CreateDirectory("wwwroot/images");
-                        System.IO.File.WriteAllBytes(imagePath, bytes);
-                    }
-
-                    imageUrl = $"{baseUrl}/{fileName}";
+                    System.IO.Directory.CreateDirectory("wwwroot/images");
+                    System.IO.File.WriteAllBytes(imagePath, bytes);
                 }
 
-                filmler.Add(new
-                {
-                    Id = filmReader.GetInt32("id"),
-                    FilmAdi = filmReader.GetString("film_adi"),
-                    Ozet = filmReader.GetString("ozet"),
-                    VizyonYili = filmReader.GetInt32("vizyon_yili"),
-                    ImdbPuani = filmReader.GetDouble("imdb_puani"),
-                    FilmResim = imageUrl
-                });
+                imageUrl = $"{baseUrl}/{fileName}";
             }
 
-            return Ok(filmler);
+            filmler.Add(new
+            {
+                Id = filmReader.GetInt32("id"),
+                FilmAdi = filmReader.GetString("filmAdi"),
+                Ozet = filmReader.GetString("ozet"),
+                VizyonYili = filmReader.GetInt32("vizyonYili"),
+                ImdbPuani = filmReader.GetDouble("imdbPuani"),
+                FilmResim = imageUrl,
+                turler = filmReader["turler"]?.ToString()?.Split(',') ?? Array.Empty<string>(),
+                oyuncular = filmReader["oyuncular"]?.ToString()?.Split(',') ?? Array.Empty<string>(),
+                yonetmenAdi = filmReader["yonetmenAdi"]?.ToString(),
+            });
         }
-        catch (MySqlException ex)
-        {
-            return StatusCode(500, $"MySQL hatası: {ex.Message}");
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Sunucu hatası: {ex.Message}");
-        }
+
+        return Ok(filmler);
     }
+    catch (MySqlException ex)
+    {
+        return StatusCode(500, $"MySQL hatası: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Sunucu hatası: {ex.Message}\n{ex.StackTrace}");
+    }
+}
+
+
     [HttpGet("kullanici-listeleri/{kullaniciId}")]
     public IActionResult KullaniciListeleriniGetir(int kullaniciId)
     {

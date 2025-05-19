@@ -6,6 +6,8 @@ import 'package:watched_list/Models/colorspallette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:watched_list/UygulamaGiris/film_details.dart';
+
 class Liste {
   final String listName;
   final List<Film> filmler;
@@ -310,24 +312,33 @@ class _ListsState extends State<Lists> {
                         separatorBuilder: (_, __) => SizedBox(width: 12),
                         itemBuilder: (context, i) {
                           final film = liste.filmler[i];
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Container(
-                              width: 120,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 6,
-                                    offset: Offset(1, 3),
-                                  )
-                                ],
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FilmDetails(film: film)));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 6,
+                                      offset: Offset(1, 3),
+                                    )
+                                  ],
+                                ),
+                                child: film.filmResim != null
+                                    ? Image.network(film.filmResim!,
+                                        fit: BoxFit.cover)
+                                    : Center(child: Icon(Icons.movie)),
                               ),
-                              child: film.filmResim != null
-                                  ? Image.network(film.filmResim!,
-                                      fit: BoxFit.cover)
-                                  : Center(child: Icon(Icons.movie)),
                             ),
                           );
                         },

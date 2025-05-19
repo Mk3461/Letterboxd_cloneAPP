@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:watched_list/UygulamaGiris/splash_screen.dart';
+import '../UygulamaGiris/splash_screen.dart';
 
 void main() {
   runApp(Proje());

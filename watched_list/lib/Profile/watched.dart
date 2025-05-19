@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:watched_list/UygulamaGiris/film_details.dart';
 import 'dart:convert';
-import 'package:watched_list/Models/global.dart' as global;
-import 'package:watched_list/Profile/movies_page.dart';
+import '../Models/global.dart' as global;
+import '../Profile/movies_page.dart';
 import '../Models/colorspallette.dart';
 import '../Models/film.dart';
 
@@ -94,27 +95,32 @@ class _WatchedState extends State<Watched> {
                   ),
                   itemBuilder: (context, index) {
                     final film = watchedList[index];
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 6,
-                              offset: Offset(1, 3),
-                            ),
-                          ],
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FilmDetails(film: film)));
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 6,
+                                offset: Offset(1, 3),
+                              ),
+                            ],
+                          ),
+                          child: film.filmResim != null
+                              ? Image.network(
+                                  film.filmResim!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Center(child: Icon(Icons.broken_image)),
+                                )
+                              : const Center(child: Icon(Icons.image_not_supported)),
                         ),
-                        child: film.filmResim != null
-                            ? Image.network(
-                                film.filmResim!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Center(child: Icon(Icons.broken_image)),
-                              )
-                            : const Center(child: Icon(Icons.image_not_supported)),
                       ),
                     );
                   },

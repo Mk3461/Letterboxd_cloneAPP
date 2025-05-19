@@ -45,8 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _openLuckyScreen() async {
     final response = await http.get(
-        Uri.parse("http://10.0.2.2:5001/api/film/random")); // örnek endpoint
-
+        Uri.parse("http://10.0.2.2:5001/api/film/random")); 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final randomFilm = Film.fromJson(data);
