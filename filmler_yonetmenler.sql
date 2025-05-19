@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for macos15 (arm64)
 --
 -- Host: localhost    Database: filmler
 -- ------------------------------------------------------
--- Server version	8.0.42
+-- Server version	9.3.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ CREATE TABLE `yonetmenler` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ad_soyad` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `yonetmenler` (
 
 LOCK TABLES `yonetmenler` WRITE;
 /*!40000 ALTER TABLE `yonetmenler` DISABLE KEYS */;
-INSERT INTO `yonetmenler` VALUES (1,'Frank Darabont'),(2,'Sidney Lumet'),(3,'Robert Zemeckis'),(4,'Christopher Nolan'),(5,'Frank Capra'),(6,'Jonathan Demme'),(7,'Peter Farrelly'),(8,'Peter Farrelly'),(9,'Peter Farrelly'),(10,'Peter Farrelly'),(11,'Roman Polanski'),(12,'Çağan Irmak'),(13,'Peter Farrelly'),(14,'Roberto Benigni'),(15,'Alfred Hitchcock'),(16,'David Fincher'),(17,'Bryan Singer'),(18,'Christopher Nolan'),(19,'Park Chan-wook'),(20,'Jaume Collet-Serra'),(21,'Martin Scorsese'),(22,'Irvin Kershner'),(23,'Lana Wachowski & Lilly Wachowski'),(24,'James Cameron'),(25,'Robert Zemeckis'),(26,'Ömer Faruk Sorak'),(27,'James McTeigue'),(28,'Denis Villeneuve'),(29,'Stanley Kubrick'),(30,'Steven Spielberg'),(31,'Quentin Tarantino'),(32,'David Lean'),(33,'Sam Mendes'),(34,'Alper Çağlar'),(35,'Zübeyr Şaşmaz'),(36,'Sergey Mokritskiy'),(37,'Christopher Nolan'),(38,'Ridley Scott'),(39,'Ilya Naishuller'),(40,'Chad Stahelski'),(41,'Isaac Florentine'),(42,'Luc Besson'),(43,'Brian De Palma'),(44,'Quentin Tarantino'),(45,'Justin Lin'),(46,'Quentin Tarantino'),(47,'Martin Scorsese'),(48,'Martin Scorsese'),(49,'Martin Scorsese'),(50,'Martin Scorsese'),(51,'Quentin Tarantino'),(52,'Yılmaz Güney'),(53,'Brian De Palma'),(54,'Brian De Palma'),(55,'Brian De Palma'),(56,'Brian De Palma'),(57,'Sergio Leone'),(58,'Martin Scorsese'),(59,'Can Ulkay'),(60,'Cem Yılmaz'),(61,'Togan Gökbakar'),(62,'Yılmaz Erdoğan'),(63,'Ömer Faruk Sorak'),(64,'Kamil Çetin'),(65,'Murat Şeker'),(66,'Rajkumar Hirani'),(67,'Ertem Eğilmez'),(68,'James Wan'),(69,'Francis Lawrence'),(70,'John R. Leonetti'),(71,'James Wong'),(72,'Andy Muschietti'),(73,'Oren Peli'),(74,'Taylor Hackford'),(75,'Gabriele Muccino'),(76,'Steven Spielberg'),(77,'Peter Farrelly'),(78,'Can Ulkay'),(79,'John Lee Hancock'),(80,'Ömer Faruk Sorak'),(81,'Bryan Singer'),(82,'Christopher Nolan'),(84,'George Lucas'),(85,'Ali Atay'),(86,'Adem Kılıç'),(87,'Yavuz Turgul'),(88,'Bülent İşbilen');
+INSERT INTO `yonetmenler` VALUES (1,'Frank Darabont'),(2,'Sidney Lumet'),(3,'Robert Zemeckis'),(4,'Christopher Nolan'),(5,'Frank Capra'),(6,'Jonathan Demme'),(7,'Peter Farrelly'),(8,'Peter Farrelly'),(9,'Peter Farrelly'),(10,'Peter Farrelly'),(11,'Roman Polanski'),(12,'Çağan Irmak'),(13,'Peter Farrelly'),(14,'Roberto Benigni'),(15,'Alfred Hitchcock'),(16,'David Fincher'),(17,'Bryan Singer'),(18,'Christopher Nolan'),(19,'Park Chan-wook'),(20,'Jaume Collet-Serra'),(21,'Martin Scorsese'),(22,'Irvin Kershner'),(23,'Lana Wachowski & Lilly Wachowski'),(24,'James Cameron'),(25,'Robert Zemeckis'),(26,'Ömer Faruk Sorak'),(27,'James McTeigue'),(28,'Denis Villeneuve'),(29,'Stanley Kubrick'),(30,'Steven Spielberg'),(31,'Quentin Tarantino'),(32,'David Lean'),(33,'Sam Mendes'),(34,'Alper Çağlar'),(35,'Zübeyr Şaşmaz'),(36,'Sergey Mokritskiy'),(37,'Christopher Nolan'),(38,'Ridley Scott'),(39,'Ilya Naishuller'),(40,'Chad Stahelski'),(41,'Isaac Florentine'),(42,'Luc Besson'),(43,'Brian De Palma'),(44,'Quentin Tarantino'),(45,'Justin Lin'),(46,'Quentin Tarantino'),(47,'Martin Scorsese'),(48,'Martin Scorsese'),(49,'Martin Scorsese'),(50,'Martin Scorsese'),(51,'Quentin Tarantino'),(52,'Yılmaz Güney'),(53,'Brian De Palma'),(54,'Brian De Palma'),(55,'Brian De Palma'),(56,'Brian De Palma'),(57,'Sergio Leone'),(58,'Martin Scorsese'),(59,'Can Ulkay'),(60,'Cem Yılmaz'),(61,'Togan Gökbakar'),(62,'Yılmaz Erdoğan'),(63,'Ömer Faruk Sorak'),(64,'Kamil Çetin'),(65,'Murat Şeker'),(66,'Rajkumar Hirani'),(67,'Ertem Eğilmez'),(68,'James Wan'),(69,'Francis Lawrence'),(70,'John R. Leonetti'),(71,'James Wong'),(72,'Andy Muschietti'),(73,'Oren Peli'),(74,'Taylor Hackford'),(75,'Gabriele Muccino'),(76,'Steven Spielberg'),(77,'Peter Farrelly'),(78,'Can Ulkay'),(79,'John Lee Hancock'),(80,'Ömer Faruk Sorak'),(81,'Bryan Singer'),(82,'Christopher Nolan');
 /*!40000 ALTER TABLE `yonetmenler` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-19  1:17:36
+-- Dump completed on 2025-05-19 19:59:19
