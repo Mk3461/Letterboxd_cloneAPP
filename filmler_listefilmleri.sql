@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.42, for macos15 (arm64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: filmler
 -- ------------------------------------------------------
--- Server version	9.3.0
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,7 +38,6 @@ CREATE TABLE `listefilmleri` (
 
 LOCK TABLES `listefilmleri` WRITE;
 /*!40000 ALTER TABLE `listefilmleri` DISABLE KEYS */;
-INSERT INTO `listefilmleri` VALUES (1,1),(3,1),(1,2),(2,6);
 /*!40000 ALTER TABLE `listefilmleri` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-19 19:59:19
+-- Dump completed on 2025-05-16 16:54:52
