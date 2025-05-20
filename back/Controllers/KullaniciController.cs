@@ -66,36 +66,36 @@ public class KullaniciController : ControllerBase
     }
 
 
-
-    [HttpGet("hepsi")]
-    public IActionResult GetAllKullanicilar()
-    {
-        var kullanicilar = new List<Kullanici>();
-
-        using var conn = new MySqlConnection(_connectionString);
-        conn.Open();
-
-        var cmd = new MySqlCommand("SELECT id, kullanici_adi, cinsiyet, isim, soyisim, yas FROM kullanicilar", conn);
-
-        using var reader = cmd.ExecuteReader();
-        while (reader.Read())
+    /******************************************************************************
+        [HttpGet("hepsi")]
+        public IActionResult GetAllKullanicilar()
         {
-            kullanicilar.Add(new Kullanici
+            var kullanicilar = new List<Kullanici>();
+
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+
+            var cmd = new MySqlCommand("SELECT id, kullanici_adi, cinsiyet, isim, soyisim, yas FROM kullanicilar", conn);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                Id = reader.GetInt32("id"),
-                KullaniciAdi = reader.GetString("kullanici_adi"),
-                Cinsiyet = reader.GetString("cinsiyet"),
-                isim = reader.GetString("isim"),
-                soyisim = reader.GetString("soyisim"),
-                Yas = reader.GetInt32("yas"),
-                // Sifre, password_hash veya salt gönderilmez!
-            });
+                kullanicilar.Add(new Kullanici
+                {
+                    Id = reader.GetInt32("id"),
+                    KullaniciAdi = reader.GetString("kullanici_adi"),
+                    Cinsiyet = reader.GetString("cinsiyet"),
+                    isim = reader.GetString("isim"),
+                    soyisim = reader.GetString("soyisim"),
+                    Yas = reader.GetInt32("yas"),
+                    // Sifre, password_hash veya salt gönderilmez!
+                });
+            }
+
+            return Ok(kullanicilar);
         }
 
-        return Ok(kullanicilar);
-    }
-
-
+    */
     [HttpPost("giris")]
     public IActionResult GirisYap([FromBody] KullaniciGirisModel model)
     {
@@ -127,8 +127,96 @@ public class KullaniciController : ControllerBase
 
         return Unauthorized(new { success = false });
     }
+    [HttpGet("{id}")]
+    public IActionResult GetKullaniciById(int id)
+    {
+        object kullanici = null;
 
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            string query = @"
+            SELECT id, kullanici_adi, isim, soyisim, yas, cinsiyet
+            FROM kullanicilar
+            WHERE id = @id";
 
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        kullanici = new
+                        {
+                            id = reader["id"],
+                            kullanici_adi = reader["kullanici_adi"],
+                            isim = reader["isim"],
+                            soyisim = reader["soyisim"],
+                            yas = reader["yas"],
+                            cinsiyet = reader["cinsiyet"]
+                        };
+                    }
+                }
+            }
+        }
+
+        if (kullanici == null)
+            return NotFound(new { message = "Kullanıcı bulunamadı." });
+
+        return Ok(kullanici);
+    }
+
+    [HttpPost("guncelle")]
+    public IActionResult Guncelle([FromBody] KullaniciGuncelleModel model)
+    {
+        try
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+
+            string query = @"
+            UPDATE kullanicilar
+            SET kullanici_adi = @kullaniciAdi,
+                isim = @isim,
+                soyisim = @soyisim,
+                yas = @yas,
+                cinsiyet = @cinsiyet";
+
+            if (!string.IsNullOrEmpty(model.Sifre))
+            {
+                query += ", password_hash = @passwordHash, password_salt = @passwordSalt";
+            }
+
+            query += " WHERE id = @id";
+
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", model.Id);
+            cmd.Parameters.AddWithValue("@kullaniciAdi", model.KullaniciAdi);
+            cmd.Parameters.AddWithValue("@isim", model.isim ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@soyisim", model.soyisim ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@yas", model.Yas ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@cinsiyet", model.Cinsiyet ?? (object)DBNull.Value);
+
+            if (!string.IsNullOrEmpty(model.Sifre))
+            {
+                CreatePasswordHash(model.Sifre, out byte[] hash, out byte[] salt);
+                cmd.Parameters.AddWithValue("@passwordHash", Convert.ToBase64String(hash));
+                cmd.Parameters.AddWithValue("@passwordSalt", Convert.ToBase64String(salt));
+            }
+
+            int result = cmd.ExecuteNonQuery();
+
+            return result > 0
+                ? Ok(new { success = true, message = "Kullanıcı güncellendi." })
+                : NotFound(new { success = false, message = "Kullanıcı bulunamadı." });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { success = false, message = $"Sunucu hatası: {ex.Message}" });
+        }
+    }
 
 
 }
