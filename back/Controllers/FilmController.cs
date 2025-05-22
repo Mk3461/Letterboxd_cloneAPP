@@ -22,6 +22,7 @@ public class FilmController : ControllerBase
 
     // Tüm filmleri getiren endpoint
     [HttpGet]
+    [HttpGet]
     [Route("all")]
     public IActionResult GetAllFilms()
     {
@@ -32,16 +33,18 @@ public class FilmController : ControllerBase
             connection.Open();
 
             var command = new MySqlCommand(@"
-                SELECT f.id, f.film_adi, f.ozet, f.vizyon_yili, f.imdb_puani, f.filmresim,
-                       y.ad_soyad AS yonetmen_adi
-                FROM filmler f
-                LEFT JOIN yonetmenler y ON f.yonetmen_id = y.id", connection);
+            SELECT f.id, f.film_adi, f.ozet, f.vizyon_yili, f.imdb_puani, f.filmresim, f.video,
+                   y.ad_soyad AS yonetmen_adi
+            FROM filmler f
+            LEFT JOIN yonetmenler y ON f.yonetmen_id = y.id", connection);
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
                 string imageUrl = null;
+                string videoUrl = null;
 
+                // Film resmi dosyasını yaz
                 if (!reader.IsDBNull(reader.GetOrdinal("filmresim")))
                 {
                     var bytes = reader.GetFieldValue<byte[]>(reader.GetOrdinal("filmresim"));
@@ -61,6 +64,26 @@ public class FilmController : ControllerBase
                     imageUrl = $"{_baseUrl}/{fileName}";
                 }
 
+                // Video blob varsa video dosyasını yaz
+                if (!reader.IsDBNull(reader.GetOrdinal("video")))
+                {
+                    var videoBytes = reader.GetFieldValue<byte[]>(reader.GetOrdinal("video"));
+
+                    using var md5 = MD5.Create();
+                    var hashBytes = md5.ComputeHash(videoBytes);
+                    var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    var videoFileName = $"{hash}.mp4"; // video formatın .mov ise
+                    var videoPath = Path.Combine("wwwroot/videos", videoFileName);
+
+                    if (!System.IO.File.Exists(videoPath))
+                    {
+                        Directory.CreateDirectory("wwwroot/videos");
+                        System.IO.File.WriteAllBytes(videoPath, videoBytes);
+                    }
+
+                    videoUrl = $"http://10.0.2.2:5001/videos/{videoFileName}";
+                }
+
                 var film = new Film
                 {
                     Id = reader.GetInt32("id"),
@@ -69,53 +92,53 @@ public class FilmController : ControllerBase
                     VizyonYili = reader.GetInt32("vizyon_yili"),
                     ImdbPuani = reader.GetDouble("imdb_puani"),
                     FilmResim = imageUrl,
+                    Video = videoUrl,
                     YonetmenAdi = reader.IsDBNull(reader.GetOrdinal("yonetmen_adi")) ? null : reader.GetString("yonetmen_adi"),
                     Oyuncular = new List<string>(),
                     Turler = new List<string>()
                 };
+                // Oyuncuları getir
+                using (var oConn = new MySqlConnection(_connectionString))
+                {
+                    oConn.Open();
+                    var oyuncuCmd = new MySqlCommand(@"
+        SELECT o.ad_soyad 
+        FROM filmoyuncular fo
+        JOIN oyuncular o ON fo.oyuncu_id = o.id
+        WHERE fo.film_id = @filmId", oConn);
+
+                    oyuncuCmd.Parameters.AddWithValue("@filmId", film.Id);
+                    using var oReader = oyuncuCmd.ExecuteReader();
+                    while (oReader.Read())
+                        film.Oyuncular.Add(oReader.GetString("ad_soyad"));
+                }
+
+                // Türleri getir
+                using (var tConn = new MySqlConnection(_connectionString))
+                {
+                    tConn.Open();
+                    var turCmd = new MySqlCommand(@"
+                                            SELECT t.tur_adi
+                                            FROM filmturleri ft
+                                            JOIN turler t ON ft.tur_id = t.id
+                                            WHERE ft.film_id = @filmId", tConn);
+
+                    turCmd.Parameters.AddWithValue("@filmId", film.Id);
+                    using var tReader = turCmd.ExecuteReader();
+                    while (tReader.Read())
+                        film.Turler.Add(tReader.GetString("tur_adi"));
+                }
+
 
                 filmler.Add(film);
             }
         }
 
-        if (filmler.Count == 0)
-            return NotFound("Filmler bulunamadı");
 
-        foreach (var film in filmler)
-        {
-            using (var oConn = new MySqlConnection(_connectionString))
-            {
-                oConn.Open();
-                var oyuncuCmd = new MySqlCommand(@"
-                    SELECT o.ad_soyad 
-                    FROM filmoyuncular fo
-                    JOIN oyuncular o ON fo.oyuncu_id = o.id
-                    WHERE fo.film_id = @filmId", oConn);
-
-                oyuncuCmd.Parameters.AddWithValue("@filmId", film.Id);
-                using var oReader = oyuncuCmd.ExecuteReader();
-                while (oReader.Read())
-                    film.Oyuncular.Add(oReader.GetString("ad_soyad"));
-            }
-
-            using (var tConn = new MySqlConnection(_connectionString))
-            {
-                tConn.Open();
-                var turCmd = new MySqlCommand(@"
-                    SELECT t.tur_adi
-                    FROM filmturleri ft
-                    JOIN turler t ON ft.tur_id = t.id
-                    WHERE ft.film_id = @filmId", tConn);
-
-                turCmd.Parameters.AddWithValue("@filmId", film.Id);
-                using var tReader = turCmd.ExecuteReader();
-                while (tReader.Read())
-                    film.Turler.Add(tReader.GetString("tur_adi"));
-            }
-        }
 
         return Ok(filmler);
     }
+
     [HttpGet]
     [Route("random")]
     public IActionResult GetRandomFilm()
@@ -257,5 +280,4 @@ public class FilmController : ControllerBase
 
         return Ok(films);
     }
-
 }

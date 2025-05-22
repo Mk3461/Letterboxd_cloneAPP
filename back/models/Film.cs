@@ -9,7 +9,9 @@ namespace back.models
         public double ImdbPuani { get; set; }
         public string FilmResim { get; set; }
         public string YonetmenAdi { get; set; }
+        public string? Video { get; set; }
         public List<string> Oyuncular { get; set; }
         public List<string> Turler { get; set; }
+
     }
 }

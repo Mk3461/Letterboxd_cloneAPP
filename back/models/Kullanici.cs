@@ -14,7 +14,6 @@ public class Kullanici
     public string? PasswordHash { get; set; }
     public string? PasswordSalt { get; set; }
 
-    // İlişkili koleksiyonlar nullable yapıldı
     public ICollection<LikedList>? LikedList { get; set; }
     public ICollection<WatchedList>? WatchedList { get; set; }
     public ICollection<WatchList>? WatchList { get; set; }

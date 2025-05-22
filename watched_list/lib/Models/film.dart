@@ -3,6 +3,7 @@ class Film {
   final String? film_adi;
   final String? filmResim;
   final String? ozet;
+  final String? video;
   final double imdbPuani;
   final List<String> turler;
   final List<String> oyuncular;
@@ -14,6 +15,7 @@ class Film {
     this.film_adi,
     this.filmResim,
     this.ozet,
+    this.video,
     required this.imdbPuani,
     required this.turler,
     required this.oyuncular,
@@ -27,6 +29,7 @@ class Film {
       filmResim: json['filmResim'],
       film_adi: json["filmAdi"],
       ozet: json['ozet'],
+      video: json["video"],
       imdbPuani: (json['imdbPuani'] ?? 0).toDouble(),
       turler: List<String>.from(json['turler'] ?? []),
       oyuncular: List<String>.from(json['oyuncular'] ?? []),

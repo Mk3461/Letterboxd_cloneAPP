@@ -24,7 +24,8 @@ class _WatchListState extends State<WatchList> {
   }
 
   Future<void> getWatchlist() async {
-    final url = Uri.parse('http://10.0.2.2:5001/api/watchlist/listele?kullaniciId=${global.currentUserId}');
+    final url = Uri.parse(
+        'http://10.0.2.2:5001/api/watchlist/listele?kullaniciId=${global.currentUserId}');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -71,73 +72,95 @@ class _WatchListState extends State<WatchList> {
         title: Text("WatchList", style: TextStyle(color: TC)),
         backgroundColor: ABC,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: GridView.builder(
-                itemCount: watchlist.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.7,
-                ),
-                itemBuilder: (context, index) {
-                  final film = watchlist[index];
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> FilmDetails(film: film)));
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 6,
-                              offset: Offset(1, 3),
-                            ),
-                          ],
-                        ),
-                        child: film.filmResim != null
-                            ? Image.network(
-                                film.filmResim!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(child: Icon(Icons.broken_image)),
-                              )
-                            : Center(child: Icon(Icons.image_not_supported)),
-                      ),
+          Column(
+            children: [
+              const SizedBox(height: 20),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: GridView.builder(
+                    itemCount: watchlist.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 0.7,
                     ),
-                  );
-                },
+                    itemBuilder: (context, index) {
+                      final film = watchlist[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FilmDetails(film: film),
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 6,
+                                  offset: Offset(1, 3),
+                                ),
+                              ],
+                            ),
+                            child: film.filmResim != null
+                                ? Image.network(
+                                    film.filmResim!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error,
+                                            stackTrace) =>
+                                        Center(child: Icon(Icons.broken_image)),
+                                  )
+                                : Center(
+                                    child: Icon(Icons.image_not_supported)),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: ElevatedButton(
+              onPressed: () async {
+                final selectedFilm = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MoviesPage()),
+                );
+
+                if (selectedFilm != null && selectedFilm is Film) {
+                  await filmEkle(selectedFilm);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF0A1D3E), // Lacivert arka plan
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16), // Yuvarlatılmış köşe
+                ),
+                padding: const EdgeInsets.all(18),
+              ),
+              child: Icon(
+                Icons.add,
+                color: Color(0xFF9C5EFF), // Mor renkli artı ikonu
+                size: 28,
               ),
             ),
-          ),
-          const SizedBox(height: 5),
-          ElevatedButton(
-            onPressed: () async {
-              final selectedFilm = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MoviesPage()),
-              );
-
-              if (selectedFilm != null && selectedFilm is Film) {
-                await filmEkle(selectedFilm);
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: BC,
-              iconSize: 30,
-            ),
-            child: const Icon(Icons.add_box),
-          ),
-          const SizedBox(height: 10),
+          )
         ],
       ),
     );

@@ -64,9 +64,7 @@ public class KullaniciController : ControllerBase
             return StatusCode(500, $"Hata: {ex.Message}");
         }
     }
-
-
-    /******************************************************************************
+    /*
         [HttpGet("hepsi")]
         public IActionResult GetAllKullanicilar()
         {
@@ -88,14 +86,13 @@ public class KullaniciController : ControllerBase
                     isim = reader.GetString("isim"),
                     soyisim = reader.GetString("soyisim"),
                     Yas = reader.GetInt32("yas"),
-                    // Sifre, password_hash veya salt gönderilmez!
+                    
                 });
             }
 
             return Ok(kullanicilar);
         }
-
-    */
+        */
     [HttpPost("giris")]
     public IActionResult GirisYap([FromBody] KullaniciGirisModel model)
     {

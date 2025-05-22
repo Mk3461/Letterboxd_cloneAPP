@@ -1,13 +1,19 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Server URL ayarını Build() öncesinde yap
+builder.WebHost.UseUrls("http://localhost:5001");
 
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Add CORS (isteğe bağlı ama Flutter'dan çağıracaksan şart)
+// Add CORS policy - Flutter gibi frontend'den çağıracaksan önemli
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -18,23 +24,37 @@ builder.Services.AddCors(options =>
     });
 });
 
-// App configuration
 var app = builder.Build();
 
-// Use static files (optional, if you serve any static content)
-app.UseStaticFiles();
+// MIME tipi provider oluştur
+var provider = new FileExtensionContentTypeProvider();
+provider.Mappings[".mov"] = "video/quicktime"; 
+provider.Mappings[".mp4"] = "video/mp4";      
 
-// Set the server to listen on all IPs (0.0.0.0)
-builder.WebHost.UseUrls("http://localhost:5001"); // This allows requests from any IP
+// Videolar için statik dosya servisi
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "videos")),
+    RequestPath = "/videos",
+    ContentTypeProvider = provider
+});
 
-// Enable CORS
+// Resimler için statik dosya servisi (istersen ekle)
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
+    RequestPath = "/images"
+});
+
+// Enable CORS policy
 app.UseCors("AllowAll");
 
-// Optional: redirect HTTP to HTTPS — kaldırabilirsin
-// app.UseHttpsRedirection(); // If you don't need HTTPS redirection, leave it commented
-
+// Authorization middleware (varsa)
 app.UseAuthorization();
 
-app.MapControllers(); // Ensure controllers are properly mapped
+// Controller route mapping
+app.MapControllers();
 
 app.Run();

@@ -97,7 +97,6 @@ namespace back.controllers
             return Ok(films);
         }
 
-        // GetOyuncular ve GetTurler metodları aynı kalabilir
         private List<string> GetOyuncular(int filmId)
         {
             var oyuncular = new List<string>();

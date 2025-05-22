@@ -211,13 +211,9 @@ class _LikesState extends State<Likes> {
           shape: CircleBorder(),
           padding: EdgeInsets.all(16),
         ),
-        child: Row(
-          children: [
-            Icon(Icons.add_box, size: 30),
-          ],
+            child: Icon(Icons.add_box, size: 30),
         ),
 
-      ),
-    );
+      );
   }
 }
